@@ -4,7 +4,7 @@ player = {
 	y = 0,
 	width = 23,
 	height = 28,
-	color = { 150, 150, 150 },
+	color = { 155, 150, 150 },
 	
 	drawx = 0,
 	drawy = 0,
@@ -15,7 +15,13 @@ player = {
 	illegalx = false,
 	illegaly = false,
 	
+	
+	reverseX = false,
+	reverseY = false,
 	reverse = false,
+	
+	correctionX = 0,
+	correctionY = 0,
 	
 	sectionx = 0,
 	sectiony = 0,
@@ -25,15 +31,32 @@ player = {
 	yacc = 0,
 	yspeed = 0,
 	maxspeed = 500,
+	maxyspeed = 1000,
 	
-	moving = false
+	moving = false,
+	jumped = false
 }
 
 function player:gravity(dt)
 
-	self.y = self.y + 100 * dt
+	if(self.onground)then
 	
-	self:checkY()
+		self.yspeed = 0
+		self.yacc = 0
+	
+	else
+		
+		self.yacc = 25
+		
+		if(self.yspeed > self.maxyspeed)then
+
+			self.yacc = 0
+			self.yspeed = self.maxyspeed
+
+		end
+	
+	end
+	
 end
 
 function player:whichSection()
@@ -43,67 +66,102 @@ end
 
 function player:checkKeys(dt)
 
-  if love.keyboard.isDown('left') then
-    if(self.speed > 0)then
-  		self.speed = self.speed - 10
-  	end
+ 	if love.keyboard.isDown('left') then
+ 	
+		if(self.speed > 0)then
+			self.speed = self.speed - 10
+		end
  
-  	self.moving = true
+		self.moving = true
   
-  	self.acc = -5
-  	if(self.speed > - 200)then
-  		self.acc = - 40
-  	end
-  	if(self.speed < -self.maxspeed)then
-  		self.acc = 0
-  		self.speed = -self.maxspeed
+		self.acc = -5
+		if(self.speed > - 200)then
+			self.acc = - 40
+		end
+		if(self.speed < -self.maxspeed)then
+			self.acc = 0
+			self.speed = -self.maxspeed
 
-  	end
-  	self.speed = self.speed + self.acc
-  	  		    
-    qleftanim:update(dt)   
-      
-    self.right = false
-    self.left = true
+		end
+		
+		if(self.jumped)then
+			
+			self.maxspeed = 1000
+			
+		else
+		
+			self.maxspeed = 500
+			
+		end
+				
+		qleftanim:update(dt)   
+	  
+		self.right = false
+		self.left = true
 
 	end  
-  if love.keyboard.isDown('right') then
+  	if love.keyboard.isDown('right') then
   
-  	if(self.speed < 0)then
-  		self.speed = self.speed + 10
-  	end
-  	
-  	self.moving = true
-
-  	
-  	self.acc = 5
-  	if(self.speed < 200)then
-  		self.acc = 40
-  	end
-  	if(self.speed > self.maxspeed)then
-  		self.acc = 0
-  		self.speed = self.maxspeed
-  	end
-	self.speed = self.speed + self.acc
-  	
-    
-    qrightanim:update(dt)   
-    
-    self.right = true
-    self.left = false
+		if(self.speed < 0)then
+			self.speed = self.speed + 10
+		end
+	
+		self.moving = true
 
 	
-	end
- 	if love.keyboard.isDown('up') then
-    self.y = self.y - 300 * dt
-    
+		self.acc = 5
+		if(self.speed < 200)then
+			self.acc = 40
+		end
+		if(self.speed > self.maxspeed)then
+			self.acc = 0
+			self.speed = self.maxspeed
+		end
+		
+		if(self.jumped)then
+			
+			self.maxspeed = 1000
+			
+		else
+		
+			self.maxspeed = 500
+			
+		end
+		
 	
-    
+		qrightanim:update(dt)   
+	
+		self.right = true
+		self.left = false
+
+	
+	
 	end
+
+	if(self.onground)then
+		
+		if(self.moving == false)then
+			if(self.speed < 0)then
+				self.speed = self.speed + 30
+			end
+			if(self.speed > 0)then
+				self.speed = self.speed - 30
+			end
+			if((self.speed >= -30 and self.speed < 0) or (self.speed <= 30 and self.speed > 0))then
+				self.speed = 0
+			end
+	
+		end
+	end
+	
+
  	if love.keyboard.isDown('down') then
-    self.y = self.y + 300 * dt
+    	self.y = self.y + 300 * dt
     
-    
+ 	end
+ 	
+ 	if love.keyboard.isDown('up') then
+		self:jump()    
  	end
   
   	if((love.keyboard.isDown('right') == false) and (love.keyboard.isDown('left') == false))then
@@ -120,19 +178,79 @@ function player:checkKeys(dt)
 		if(self.speed == 0)then
 			qleftanim:seek(2)
 			qrightanim:seek(2)
-
 		end
 	
   	end
+  	
+  	self.speed = self.speed + self.acc
+	self.x = self.x + self.speed * dt
     
-    self.x = self.x + self.speed * dt
+    self.yspeed = self.yspeed + self.yacc
+	self.y = self.y + self.yspeed * dt
+	
+    self.reverseX, self.correctionX = self:checkX()
+    self.reverseY, self.correctionY = self:checkY()
     
-    self:checkY()
-    self:checkX()
+ 
     
+    if(self.reverseX)then
+    	self.drawx = self.drawx + self.correctionX
+    	self.x = self.drawx
+    	
+    			
+		if(self.speed > 0)then
+		
+			self.speed = self.speed - 10
+		
+		elseif(self.speed < 0)then
+		
+			self.speed = self.speed + 10
+			
+		end
+		
+		if((self.speed < 0 and self.speed > -10) or (self.speed > 0 and self.speed < 10))then
+		
+			self.speed = 0
+			
+		end
 
+    else
+    	self.drawx = self.x
 
-  
+    end
+    
+    if(self.reverseY)then
+       	if(self.correctionY < 0)then
+    		if(self.y > self.drawy)then
+    			self.onground = true
+    		end
+    	end
+    
+        self.drawy = self.drawy + self.correctionY
+		self.y = self.drawy
+		
+		if(self.yspeed > 0)then
+		
+			self.yspeed = self.yspeed - 10
+		
+		elseif(self.yspeed < 0)then
+		
+			self.yspeed = self.yspeed + 10
+			
+		end
+		
+		if((self.yspeed < 0 and self.yspeed > -10) or (self.yspeed > 0 and self.yspeed < 10))then
+		
+			self.yspeed = 0
+			
+		end
+
+    else
+		self.drawy = self.y
+		self.onground = false
+
+    end
+
 end
 
 
@@ -141,20 +259,17 @@ function player:checkX()
 		self.reverse = false
 
 		for i = 1, #sections do
-			if(sections[i]:collide(player))then
-				self.reverse = sections[i]:collide(player)
+			if(sections[i]:collide(player, 'x'))then
+				self.reverse, correctionX = sections[i]:collide(player, 'x')
 			end
 		end
 		
 		if(self.reverse)then
-	
-			self.x = self.drawx
-			
-			return true
+				
+			return true, correctionX
 
 		else
-			self.drawx = self.x
-
+			return false, 0 
 		end
 end
 
@@ -163,55 +278,65 @@ function player:checkY()
 		self.reverse = false
 
 		for i = 1, #sections do
-			if(sections[i]:collide(player))then
-				self.reverse = sections[i]:collide(player)
+			if(sections[i]:collide(player, 'y'))then
+				self.reverse, correctionY = sections[i]:collide(player, 'y')
 				
-				if(self.moving == false)then
-					if(self.speed < 0)then
-						self.speed = self.speed + 30
-					end
-					if(self.speed > 0)then
-						self.speed = self.speed - 30
-					end
-					if((self.speed >= -30 and self.speed < 0) or (self.speed <= 30 and self.speed > 0))then
-						self.speed = 0
-					end
-				
-				end
-				
+			end
+		end
+		
+		for i = 1, #sections do
+			if(sections[i]:onTop(player))then
+			
+				self.onground = true
+				self.jumped = false
 			end
 		end
 		
 		if(self.reverse)then
 				
-			self.y = self.drawy
-			
-			return true
+			return true, correctionY
 
 		else
-			self.drawy = self.y
-
+			return false, 0
 		end
+		
+		
 
 end
 
 function player:animate()
 
-	if(self.right)then
+	if(self.right and self.jumped == false)then
 
 		qrightanim:draw(player.drawx, player.drawy)
 	
 	
 	end
 	
-	if(self.left)then
+	if(self.left and self.jumped == false)then
 	
 		qleftanim:draw(player.drawx, player.drawy)
 	
+	end
+	
+	if(self.jumped)then
+		if(self.left)then
+			qleftanim:seek(3)
+			qleftanim:draw(player.drawx, player.drawy)
+
+		end
+		if(self.right)then
+			qrightanim:seek(3)
+			qrightanim:draw(player.drawx, player.drawy)
+		end
 	end
 end
 
 function player:jump()
 
-
+	if(self.onground)then
+	 	self.yspeed = self.yspeed - 600
+	 	self.jumped = true
+	end
+	
 end

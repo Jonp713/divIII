@@ -1,13 +1,13 @@
 hater = {}
 
-function hater:new (xIn, yIn)
+function hater:new (xIn, yIn, colorIn)
   o = {
   
 	x = xIn,
 	y = yIn,
-	width = 20,
-	height = 20,
-	color = { 255, 20, 20 },
+	width = 30,
+	height = 50,
+	color = colorIn,
 		
   }  
   setmetatable(o, self)
@@ -19,7 +19,7 @@ end
 
 
 function hater:draw ()
-
+	love.graphics.setColor(unpack(self.color))
 	love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
-
+	love.graphics.setColor(255,255,255)
 end

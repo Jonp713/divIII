@@ -1,3 +1,18 @@
+function string:split( inSplitPattern, outResults )
+  if not outResults then
+    outResults = { }
+  end
+  local theStart = 1
+  local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  while theSplitStart do
+    table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+    theStart = theSplitEnd + 1
+    theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  end
+  table.insert( outResults, string.sub( self, theStart ) )
+  return outResults
+end
+
 function collisionCheckImage(object1, object2)
 
 	c1x = object1.x
@@ -38,7 +53,8 @@ function collisionCheckImage(object1, object2)
 
 end
 
-function collisionCheckBox(x1, y1, length1, height1, x2, y2, length2, height2)
+
+function collisionCheckBox(x1, y1, length1, height1, x2, y2, length2, height2, drawx, drawy)
 
 	p1x = x1
 	p1y = y1
@@ -52,9 +68,40 @@ function collisionCheckBox(x1, y1, length1, height1, x2, y2, length2, height2)
 	c2x = x2 + length2
 	c2y = y2 + height2
 	
+	oldp1y = drawy
+	oldp2y = drawy + height1
+	oldp1x = drawx
+	oldp2x = drawx + length1
+	
 	if((p1x > c1x and p1x < c2x) or (p2x > c1x and p2x < c2x))then
-		if((p1y > c1y and p1y < c2y) or (p2y > c1y and p2y < c2y))then
-			return true
+		if((p1y > c1y and p1y < c2y) or (p2y > c1y and p2y < c2y))then			
+			
+			-- going right
+			if(x1 > drawx)then
+			
+				correction = c1x - oldp2x
+			
+			end
+			-- going left
+			if(x1 < drawx)then
+			
+				correction = c2x - oldp1x
+			
+			end
+			-- going down
+			if(y1 > drawy)then
+			
+				correction = c1y - oldp2y
+							
+			end
+			-- going up
+			if(y1 < drawy)then
+			
+				correction = c2y - oldp1y
+			end
+			
+			return true, correction
+			
 		end
 	end
 
@@ -80,6 +127,39 @@ function collisionCheckBox(x1, y1, length1, height1, x2, y2, length2, height2)
 	
 	end
 ]]
+
+end
+
+function collisionCheckOneWay(x1, y1, length1, height1, x2, y2, length2, height2, drawx, drawy)
+
+	p1x = x1
+	p1y = y1
+	
+	p2x = x1 + length1
+	p2y = y1 + height1	
+	
+	c1x = x2
+	c1y = y2
+	
+	c2x = x2 + length2
+	c2y = y2 + height2
+	
+	oldp1y = drawy
+	oldp2y = drawy + height1
+	oldp1x = drawx
+	oldp2x = drawx + length1	
+	
+	if((p1x >= c1x and p1x <= c2x) or (p2x >= c1x and p2x <= c2x))then
+	-- if the previous location was above the collide y location
+		if(oldp2y - 1 < c1y)then
+				
+			if((p1y >= c1y and p1y <= c2y) or (p2y >= c1y and p2y <= c2y))then
+				return true, c1y - oldp2y
+
+		 
+			end
+		end
+	end
 
 end
 

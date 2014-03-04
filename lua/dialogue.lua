@@ -26,8 +26,9 @@ end
 
 function dialogue:talk (dia)
 
-	love.graphics.setColor(255, 255, 255)
+	love.graphics.setColor(0, 0, 0)
   	love.graphics.print(dia, self.targetObject.x - 70, self.targetObject.y - 20)
+	love.graphics.setColor(255,255,255)
 
 end
 

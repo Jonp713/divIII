@@ -1,20 +1,19 @@
 player = {
 
-	x = 0,
-	y = 0,
+	x = start.x,
+	y = start.y,
 	width = 23,
 	height = 28,
 	color = { 155, 150, 150 },
 	
-	drawx = 0,
-	drawy = 0,
+	drawx = start.x,
+	drawy = start.y,
 	
 	left = false,
 	right = true,
 
 	illegalx = false,
 	illegaly = false,
-	
 	
 	reverseX = false,
 	reverseY = false,
@@ -108,7 +107,6 @@ function player:checkKeys(dt)
 	
 		self.moving = true
 
-	
 		self.acc = 5
 		if(self.speed < 200)then
 			self.acc = 40
@@ -134,11 +132,28 @@ function player:checkKeys(dt)
 		self.right = true
 		self.left = false
 
-	
-	
 	end
 
-	if(self.onground)then
+ 	if love.keyboard.isDown('down') then
+    	self.y = self.y + 300 * dt
+    
+ 	end
+ 	
+ 	if love.keyboard.isDown('up') then
+		self:jump()    
+ 	end
+  
+  	if((love.keyboard.isDown('right') == false) and (love.keyboard.isDown('left') == false))then
+  
+  		self:noKeys(dt)
+	
+  	end
+
+end
+
+function player:move(dt)
+
+  	if(self.onground)then
 		
 		if(self.moving == false)then
 			if(self.speed < 0)then
@@ -153,20 +168,22 @@ function player:checkKeys(dt)
 	
 		end
 	end
-	
-
- 	if love.keyboard.isDown('down') then
-    	self.y = self.y + 300 * dt
+  	
+  	self.speed = self.speed + self.acc
+	self.x = self.x + self.speed * dt
     
- 	end
- 	
- 	if love.keyboard.isDown('up') then
-		self:jump()    
- 	end
-  
-  	if((love.keyboard.isDown('right') == false) and (love.keyboard.isDown('left') == false))then
-  
-		self.moving = false
+    self.yspeed = self.yspeed + self.yacc
+	self.y = self.y + self.yspeed * dt
+	
+    self.reverseX, self.correctionX = self:checkX()
+    self.reverseY, self.correctionY = self:checkY()
+
+
+end
+
+function player:noKeys(dt)
+
+	self.moving = false
 		self.acc = 0
   	
 		if(self.speed > 0)then
@@ -179,19 +196,10 @@ function player:checkKeys(dt)
 			qleftanim:seek(2)
 			qrightanim:seek(2)
 		end
-	
-  	end
-  	
-  	self.speed = self.speed + self.acc
-	self.x = self.x + self.speed * dt
-    
-    self.yspeed = self.yspeed + self.yacc
-	self.y = self.y + self.yspeed * dt
-	
-    self.reverseX, self.correctionX = self:checkX()
-    self.reverseY, self.correctionY = self:checkY()
-    
- 
+end
+
+
+function player:checkMovement()
     
     if(self.reverseX)then
     	self.drawx = self.drawx + self.correctionX

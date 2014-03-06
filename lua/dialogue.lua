@@ -13,7 +13,7 @@ function dialogue:new (dayIn, minuteIn, secIn, sequenceIn, objectIn, repeatIn)
 	
 	finished = false,
 	
-	startSec = (((dayIn * dayLength) + minuteIn) * 60) + gamestartSec + secIn,
+	startSec = (((dayIn * dayLength) + minuteIn) * 60) + secIn,
 
 	repeaty = repeatIn
   

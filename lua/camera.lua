@@ -89,6 +89,12 @@ function camera:getPos()
 	
 	love.graphics.print("x: " .. x .. ' ,', 10, 10)
 	love.graphics.print("y: " .. y, 10, 20)
+	
+end
+
+function camera:returnPos()
+
+	return self._x, self._y
 
 end
 

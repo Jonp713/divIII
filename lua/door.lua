@@ -43,3 +43,24 @@ function door:close ()
 
 	end
 end
+
+function doors:checkAll()
+
+
+	if(zpressable)then
+
+		for i = 1, #doors do
+			if(doors[i].opened == false)then
+				if(collisionCheckPoint(doors[i].enterx, doors[i].entery, 20, player.x, player.y, player.width, player.height))then
+					doors[i]:open()
+				end
+			else
+				if(collisionCheckPoint(doors[i].leavex, doors[i].leavey, 20, player.x, player.y, player.width, player.height))then
+					doors[i]:close()
+				end
+			end
+		end
+	
+	end		
+	
+end

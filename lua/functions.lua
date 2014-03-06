@@ -1,18 +1,3 @@
-function string:split( inSplitPattern, outResults )
-  if not outResults then
-    outResults = { }
-  end
-  local theStart = 1
-  local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
-  while theSplitStart do
-    table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
-    theStart = theSplitEnd + 1
-    theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
-  end
-  table.insert( outResults, string.sub( self, theStart ) )
-  return outResults
-end
-
 function collisionCheckImage(object1, object2)
 
 	c1x = object1.x
@@ -240,6 +225,249 @@ function otherKeyChecks()
 	if(love.keyboard.isDown('z') == false)then
 		zpressable = true
 	end
+	if(love.keyboard.isDown('q') == false)then
+		qpressable = true
+	end
+	if(love.keyboard.isDown('w') == false)then
+		wpressable = true
+	end
+	if(love.keyboard.isDown('a') == false)then
+		apressable = true
+	end
+	if(love.keyboard.isDown('s') == false)then
+		spressable = true
+	end
+	if(love.keyboard.isDown('d') == false)then
+		dpressable = true
+	end
+
+end
+
+--[[
+   Save Table to File
+   Load Table from File
+   v 1.0
+   
+   Lua 5.2 compatible
+   
+   Only Saves Tables, Numbers and Strings
+   Insides Table References are saved
+   Does not save Userdata, Metatables, Functions and indices of these
+   ----------------------------------------------------
+   table.save( table , filename )
+   
+   on failure: returns an error msg
+   
+   ----------------------------------------------------
+   table.load( filename or stringtable )
+   
+   Loads a table that has been saved via the table.save function
+   
+   on success: returns a previously saved table
+   on failure: returns as second argument an error msg
+   ----------------------------------------------------
+   
+   Licensed under the same terms as Lua itself.
+]]--
+do
+   -- declare local variables
+   --// exportstring( string )
+   --// returns a "Lua" portable version of the string
+   local function exportstring( s )
+      return string.format("%q", s)
+   end
+
+   --// The Save Function
+   function table.save(  tbl,filename )
+      local charS,charE = "   ","\n"
+      local file,err = io.open( filename, "wb" )
+      if err then return err end
+
+      -- initiate variables for save procedure
+      local tables,lookup = { tbl },{ [tbl] = 1 }
+      file:write( "return {"..charE )
+
+      for idx,t in ipairs( tables ) do
+         file:write( "-- Table: {"..idx.."}"..charE )
+         file:write( "{"..charE )
+         local thandled = {}
+
+         for i,v in ipairs( t ) do
+            thandled[i] = true
+            local stype = type( v )
+            -- only handle value
+            if stype == "table" then
+               if not lookup[v] then
+                  table.insert( tables, v )
+                  lookup[v] = #tables
+               end
+               file:write( charS.."{"..lookup[v].."},"..charE )
+            elseif stype == "string" then
+               file:write(  charS..exportstring( v )..","..charE )
+            elseif stype == "number" then
+               file:write(  charS..tostring( v )..","..charE )
+            end
+         end
+
+         for i,v in pairs( t ) do
+            -- escape handled values
+            if (not thandled[i]) then
+            
+               local str = ""
+               local stype = type( i )
+               -- handle index
+               if stype == "table" then
+                  if not lookup[i] then
+                     table.insert( tables,i )
+                     lookup[i] = #tables
+                  end
+                  str = charS.."[{"..lookup[i].."}]="
+               elseif stype == "string" then
+                  str = charS.."["..exportstring( i ).."]="
+               elseif stype == "number" then
+                  str = charS.."["..tostring( i ).."]="
+               end
+            
+               if str ~= "" then
+                  stype = type( v )
+                  -- handle value
+                  if stype == "table" then
+                     if not lookup[v] then
+                        table.insert( tables,v )
+                        lookup[v] = #tables
+                     end
+                     file:write( str.."{"..lookup[v].."},"..charE )
+                  elseif stype == "string" then
+                     file:write( str..exportstring( v )..","..charE )
+                  elseif stype == "number" then
+                     file:write( str..tostring( v )..","..charE )
+                  end
+               end
+            end
+         end
+         file:write( "},"..charE )
+      end
+      file:write( "}" )
+      file:close()
+   end
+   
+   --// The Load Function
+   function table.load( sfile )
+      local ftables,err = loadfile( sfile )
+      if err then return _,err end
+      local tables = ftables()
+      for idx = 1,#tables do
+         local tolinki = {}
+         for i,v in pairs( tables[idx] ) do
+            if type( v ) == "table" then
+               tables[idx][i] = tables[v[1]]
+            end
+            if type( i ) == "table" and tables[i[1]] then
+               table.insert( tolinki,{ i,tables[i[1]] } )
+            end
+         end
+         -- link indices
+         for _,v in ipairs( tolinki ) do
+            tables[idx][v[2]],tables[idx][v[1]] =  tables[idx][v[1]],nil
+         end
+      end
+      return tables[1]
+   end
+-- close do
+end
+
+-- ChillCode
 
 
+function table.show(t, name, indent)
+   local cart     -- a container
+   local autoref  -- for self references
+
+   --[[ counts the number of elements in a table
+   local function tablecount(t)
+      local n = 0
+      for _, _ in pairs(t) do n = n+1 end
+      return n
+   end
+   ]]
+   -- (RiciLake) returns true if the table is empty
+   local function isemptytable(t) return next(t) == nil end
+
+   local function basicSerialize (o)
+      local so = tostring(o)
+      if type(o) == "function" then
+         local info = debug.getinfo(o, "S")
+         -- info.name is nil because o is not a calling level
+         if info.what == "C" then
+            return string.format("%q", so .. ", C function")
+         else 
+            -- the information is defined through lines
+            return string.format("%q", so .. ", defined in (" ..
+                info.linedefined .. "-" .. info.lastlinedefined ..
+                ")" .. info.source)
+         end
+      elseif type(o) == "number" or type(o) == "boolean" then
+         return so
+      else
+         return string.format("%q", so)
+      end
+   end
+
+   local function addtocart (value, name, indent, saved, field)
+      indent = indent or ""
+      saved = saved or {}
+      field = field or name
+
+      cart = cart .. indent .. field
+
+      if type(value) ~= "table" then
+         cart = cart .. " = " .. basicSerialize(value) .. ";\n"
+      else
+         if saved[value] then
+            cart = cart .. " = {}; -- " .. saved[value] 
+                        .. " (self reference)\n"
+            autoref = autoref ..  name .. " = " .. saved[value] .. ";\n"
+         else
+            saved[value] = name
+            --if tablecount(value) == 0 then
+            if isemptytable(value) then
+               cart = cart .. " = {};\n"
+            else
+               cart = cart .. " = {\n"
+               for k, v in pairs(value) do
+                  k = basicSerialize(k)
+                  local fname = string.format("%s[%s]", name, k)
+                  field = string.format("[%s]", k)
+                  -- three spaces between levels
+                  addtocart(v, fname, indent .. "   ", saved, field)
+               end
+               cart = cart .. indent .. "};\n"
+            end
+         end
+      end
+   end
+
+   name = name or "__unnamed__"
+   if type(t) ~= "table" then
+      return name .. " = " .. basicSerialize(t)
+   end
+   cart, autoref = "", ""
+   addtocart(t, name, indent)
+   return cart .. autoref
+end
+
+
+function string:split( inSplitPattern, outResults )
+  if not outResults then
+    outResults = { }
+  end
+  local theStart = 1
+  local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  while theSplitStart do
+    table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+    theStart = theSplitEnd + 1
+    theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  end
+  table.insert( outResults, string.sub( self, theStart ) )
+  return outResults
 end

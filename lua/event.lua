@@ -13,7 +13,7 @@ function event:new (dayIn, minuteIn, secIn, sequenceIn, objectIn, repeatIn)
 	repeaty = repeatIn,
 	finished = false,
 	
-	startSec = (((dayIn * dayLength) + minuteIn) * 60) + gamestartSec + secIn
+	startSec = (((dayIn * dayLength) + minuteIn) * 60) + secIn
   
   }  
   setmetatable(o, self)

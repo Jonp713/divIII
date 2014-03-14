@@ -1,13 +1,13 @@
 player = {
 
-	x = start.x,
-	y = start.y,
+	x = 1573,
+	y = 1480,
 	width = 39,
 	height = 39,
 	color = { 155, 150, 150 },
 	
-	drawx = start.x,
-	drawy = start.y,
+	drawx = 1573,
+	drawy = 1480,
 	
 	left = false,
 	right = true,

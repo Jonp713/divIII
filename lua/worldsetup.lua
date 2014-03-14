@@ -90,5 +90,7 @@ camera:newLayer(.2, function()
 
 end)
 
+camera:scale(0.5, 0.5)
+
 -- sets camera boundaries
 camera:setBounds(0, 0, worldWidth - sections[1].width, worldHeight - sections[1].height)

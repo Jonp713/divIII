@@ -10,12 +10,6 @@ function interaction:new (secStart, secEnd, sequenceIn, objectIn, typeIn, functi
 	endTime = secEnd,
 	
 	object = objectIn,
-
-	repeaty = repeatIn,
-  	
-  	modx = 0,
-  	modx2 = 0,
-  	mody = 0,
   	
   	triggerGo = false,
   	
@@ -32,7 +26,7 @@ end
 
 function interaction:display ()
 
-	if(collisionCheck(player.x, player.y, player.height, player.width, self.object.x, self.object.y, 40, 80))then
+	if(collisionCheck(player.x, player.y, player.height, player.width, self.object.x, self.object.y, 40, 80) and player.lock == false)then
 	
 		love.graphics.setColor(255,255,255, 200)
 

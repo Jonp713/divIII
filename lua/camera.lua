@@ -136,15 +136,45 @@ function camera:checkKeys(dt)
 	
 	end
 	
-	if(love.keyboard.isDown('t'))then
+	if(editorMode)then
 	
-		camera:scale(0.99,0.99)
+		if(love.keyboard.isDown('t'))then
+	
+			camera:scale(0.99,0.99)
+	
+		end
+		if(love.keyboard.isDown('y'))then
+	
+			camera:scale(1.01,1.01)
+	
+		end
 	
 	end
-	if(love.keyboard.isDown('y'))then
 	
-		camera:scale(1.01,1.01)
 	
+	if(camera.scaleX + 0.01 > 1 and camera.scaleX - 0.01 < 1)then
+		
+	elseif(editorMode == false and player.lock == false)then
+
+		if(camera.scaleX > 1)then
+
+			camera:scale(0.99,1)
+
+		end
+		if(camera.scaleX < 1)then
+
+			camera:scale(1.01, 1)
+
+		end
+		if(camera.scaleY > 1)then
+
+			camera:scale(1,0.99)
+
+		end
+		if(camera.scaleY < 1)then
+
+			camera:scale(1,1.01)
+		end
 	end
 
 end

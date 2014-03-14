@@ -1,16 +1,10 @@
 cinematic = {}
 
-function cinematic:new (secStart, secEnd, sequenceIn, objectIn, typeIn, zoomIn, functionIn)
+function cinematic:new (sequenceIn, typeIn, zoomIn, functionIn)
   o = {
   
   	state = 1,
   	sequence = sequenceIn,
-	startTime = secStart,
-	endTime = secEnd,
-	
-	object = objectIn,
-
-	repeaty = repeatIn,
   	
   	modx = 0,
   	modx2 = 0,
@@ -27,39 +21,70 @@ function cinematic:new (secStart, secEnd, sequenceIn, objectIn, typeIn, zoomIn, 
   }  
   setmetatable(o, self)
   self.__index = self
-  --table.insert(interactions, o)
   return o
 end
 
 function cinematic:trigger ()
 
-	if(self.itype == 1 or self.itype == 2)then
+	if(self.triggerGo)then
 	
-		if(love.keyboard.isDown('z') and zpressable)then
-			zpressable = false
-			self.state = self.state + 1
-	
-		end
-	
-		if(self.state > #self.sequence)then
+		player.lock = true
+
+		if(camera.scaleX + 0.01 > self.zoom and camera.scaleX - 0.01 < self.zoom)then
 		
-			self.triggerGo = false
-			self.state = 1
-			player.lock = false
-
 		else
+
+			if(camera.scaleX > self.zoom)then
 	
-			self:text(self.sequence[self.state].words)
+				camera:scale(0.99,1)
+	
+			end
+			if(camera.scaleX < self.zoom)then
+	
+				camera:scale(1.01, 1)
+	
+			end
+			if(camera.scaleY > self.zoom)then
+	
+				camera:scale(1,0.99)
+
+			end
+			if(camera.scaleY < self.zoom)then
+	
+				camera:scale(1,1.01)
+			end
+		end
+
+		if(self.itype == 1 or self.itype == 2)then
+	
+			if(love.keyboard.isDown('z') and zpressable)then
+				zpressable = false
+				self.state = self.state + 1
+	
+			end
+	
+			if(self.state > #self.sequence)then
+		
+				self.triggerGo = false
+				self.state = 1
+				player.lock = false
+				
+				
+
+			else
+	
+				self:text(self.sequence[self.state].words)
+	
+			end
+
+		end
+		if(self.itype == 3)then
+	
+			self:use()
 	
 		end
 
 	end
-	if(self.itype == 3)then
-	
-		self:use()
-	
-	end
-
 end
 
 function cinematic:text (textIn)

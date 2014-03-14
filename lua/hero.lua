@@ -2,8 +2,8 @@ player = {
 
 	x = start.x,
 	y = start.y,
-	width = 23,
-	height = 28,
+	width = 39,
+	height = 39,
 	color = { 155, 150, 150 },
 	
 	drawx = start.x,
@@ -32,8 +32,12 @@ player = {
 	maxspeed = 500,
 	maxyspeed = 1000,
 	
+	onground = true,
+	
 	moving = false,
-	jumped = false
+	jumped = false,
+	
+	lock = false,
 }
 
 function player:gravity(dt)
@@ -59,13 +63,13 @@ function player:gravity(dt)
 end
 
 function player:whichSection()
-	player.sectionx = player.drawx/1100
-	player.sectiony = player.drawy/500
+	player.sectionx = player.drawx/sections[1].width
+	player.sectiony = player.drawy/sections[1].height
 end
 
 function player:checkKeys(dt)
 
- 	if love.keyboard.isDown('left') then
+ 	if love.keyboard.isDown('left') and self.lock == false then
  	
 		if(self.speed > 0)then
 			self.speed = self.speed - 10
@@ -99,7 +103,7 @@ function player:checkKeys(dt)
 		self.left = true
 
 	end  
-  	if love.keyboard.isDown('right') then
+  	if love.keyboard.isDown('right') and self.lock == false then
   
 		if(self.speed < 0)then
 			self.speed = self.speed + 10
@@ -135,12 +139,23 @@ function player:checkKeys(dt)
 	end
 
  	if love.keyboard.isDown('down') then
-    	self.y = self.y + 300 * dt
+    	--self.y = self.y + 300 * dt
     
  	end
  	
- 	if love.keyboard.isDown('up') then
-		self:jump()    
+ 	if love.keyboard.isDown(' ') and self.lock == false then
+ 	
+ 		if(editorMode and love.keyboard.isDown('lshift'))then
+		
+			self:jump()
+			self.yspeed = -500
+		
+		else
+		
+			self:jump()  
+		
+		end  
+		
  	end
   
   	if((love.keyboard.isDown('right') == false) and (love.keyboard.isDown('left') == false))then

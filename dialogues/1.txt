@@ -1,5 +1,12 @@
 tree = {
 
+	{
+ 		startSec = 0 ,
+
+		sequence = {
+			{words = "That girl was so annoying", time = 20},
+		}
+	},
  
 }
 

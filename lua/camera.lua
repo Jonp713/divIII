@@ -4,6 +4,7 @@ camera._y = 0
 camera.scaleX = 1
 camera.scaleY = 1
 camera.rotation = 0
+camera.modifier = 0
  
 function camera:set()
 
@@ -34,6 +35,7 @@ function camera:rotate(dr)
 end
  
 function camera:scale(sx, sy)
+toprint = 'scaling'
   sx = sx or 1
   self.scaleX = self.scaleX * sx
   self.scaleY = self.scaleY * (sy or sx)
@@ -84,12 +86,67 @@ end
 
 function camera:getPos()
 
-	y = love.mouse.getY() + (self._y * 5)
-	x = love.mouse.getX() + (self._x * 5)
+	y = (love.mouse.getY() * self.scaleY) + (self._y * 5)
+	x = (love.mouse.getX() * self.scaleX) + (self._x * 5)
 	
 	love.graphics.print("x: " .. x .. ' ,', 10, 10)
 	love.graphics.print("y: " .. y, 10, 20)
 	
+	return x,y
+	
+end
+
+function camera:checkKeys(dt)
+
+	if(love.keyboard.isDown('up'))then
+	
+		self.modifier = self.modifier - math.ceil(300 *dt)
+	
+	end
+	if(love.keyboard.isDown('down'))then
+	
+		self.modifier = self.modifier + math.ceil(300 *dt)
+		
+	end
+
+	if(self.modifier > 150)then
+	
+		self.modifier = 150
+	
+	end
+	if(self.modifier < - 150)then
+	
+		self.modifier = -150
+	
+	end
+	
+	if(love.keyboard.isDown('down') == false and love.keyboard.isDown('up') == false)then
+	
+		if(self.modifier > 0)then
+	
+			self.modifier = self.modifier - math.ceil(500 * dt)
+	
+		end
+		if(self.modifier < 0)then
+		
+			self.modifier = self.modifier + math.ceil(500 * dt)
+
+	
+		end
+	
+	end
+	
+	if(love.keyboard.isDown('t'))then
+	
+		camera:scale(0.99,0.99)
+	
+	end
+	if(love.keyboard.isDown('y'))then
+	
+		camera:scale(1.01,1.01)
+	
+	end
+
 end
 
 function camera:returnPos()

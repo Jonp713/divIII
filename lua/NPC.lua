@@ -25,17 +25,17 @@ function npc:new (xIn, yIn, colorIn)
   return o
 end
 
-function npc:newEvent(secIn, sequenceIn, repeatIn)
+function npc:newEvent(secIn, endSecIn, sequenceIn, repeatIn)
 	
-	new = event:new(secIn, sequenceIn, self, repeatIn)
+	new = event:new(secIn, endSecIn, sequenceIn, self, repeatIn)
 	setmetatable(new, event)
   	table.insert(self.events, new)
 
 end
 
-function npc:newDialogue(secIn, sequenceIn, repeatIn)
+function npc:newDialogue(secIn, endSecIn, sequenceIn, repeatIn)
 	
-	new = dialogue:new(secIn, sequenceIn, self, repeatIn)
+	new = dialogue:new(secIn, endSecIn, sequenceIn, self, repeatIn)
   	table.insert(self.dialogues, new)
 
 end

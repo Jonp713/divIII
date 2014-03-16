@@ -30,23 +30,23 @@ function interaction:display ()
 	
 		love.graphics.setColor(255,255,255, 200)
 
-		love.graphics.rectangle('fill', 590, 325, 140, 33)
+		love.graphics.rectangle('fill', 590, 335, 140, 33)
 	
 		love.graphics.setColor(0, 0, 0, 255)
 	
 		if(self.itype == 1)then
 	
-			love.graphics.print("Press Z to read", 610, 335)
+			love.graphics.print("Press Z to read", 610, 345)
 		
 		end
 		if(self.itype == 2)then
 		
-			love.graphics.print("Press Z to talk", 610, 335)
+			love.graphics.print("Press Z to talk", 610, 345)
 
 		end
 		if(self.itype == 3)then
 			
-			love.graphics.print("Press Z to use", 610, 335)
+			love.graphics.print("Press Z to use", 610, 345)
 		
 		end
 		
@@ -97,11 +97,11 @@ function interaction:text (textIn)
 
 	count = #textIn
 		
-	if(count > 50)then
+	if(count > 65)then
 	
 		found = false
 	
-		for i = count/2, count do
+		for i = 65, count do
 		
 			j = textIn:sub(i,i)
 			
@@ -137,15 +137,15 @@ function interaction:text (textIn)
 	
 	love.graphics.setColor(255,255,255, 200)
 
-	love.graphics.rectangle('fill', 420, 325, 490, 50)
+	love.graphics.rectangle('fill', 420, 335, 490, 50)
 	
 	love.graphics.setColor(0, 0, 0, 255)
 	
 	
-	if(count > 50)then
+	if(count > 65)then
 	
-		love.graphics.print(textIn:sub(0, count2), 450, 335)
-		love.graphics.print(textIn:sub(count2 + 1, count), 450, 348)
+		love.graphics.print(textIn:sub(0, count2), 450, 345)
+		love.graphics.print(textIn:sub(count2 + 1, count), 450, 358)
   	
   	else
   	

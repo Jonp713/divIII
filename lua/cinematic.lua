@@ -17,6 +17,8 @@ function cinematic:new (sequenceIn, typeIn, zoomIn, functionIn)
   	use = functionIn or 0,
   	
   	zoom = zoomIn,
+  	
+  	finished = false,
   
   }  
   setmetatable(o, self)
@@ -27,6 +29,10 @@ end
 function cinematic:trigger ()
 
 	if(self.triggerGo)then
+	
+		ifcinematic = true
+	
+		camera.modifier = -50
 	
 		player.lock = true
 
@@ -68,9 +74,9 @@ function cinematic:trigger ()
 				self.triggerGo = false
 				self.state = 1
 				player.lock = false
+				self.finished = true
+				ifcinematic = false
 				
-				
-
 			else
 	
 				self:text(self.sequence[self.state].words)
@@ -91,11 +97,11 @@ function cinematic:text (textIn)
 
 	count = #textIn
 		
-	if(count > 50)then
+	if(count > 65)then
 	
 		found = false
 	
-		for i = count/2, count do
+		for i = 65, count do
 		
 			j = textIn:sub(i,i)
 			
@@ -114,17 +120,11 @@ function cinematic:text (textIn)
 		end
 	
 		count2 = foundcount
-		
-		self.modx = count2 * 3
-
-		self.modx2 = count2 * 3
 			
 	else
 		
 		count = #textIn
-	
-		self.modx = count * 3
-		
+			
 	end
 	
 	self.mody = 20
@@ -136,14 +136,14 @@ function cinematic:text (textIn)
 	love.graphics.setColor(0, 0, 0, 255)
 	
 	
-	if(count > 50)then
+	if(count > 65)then
 	
 		love.graphics.print(textIn:sub(0, count2), 450, 335)
 		love.graphics.print(textIn:sub(count2 + 1, count), 450, 348)
   	
   	else
   	
-  	  	love.graphics.print(textIn, 500, 350)
+  	  	love.graphics.print(textIn, 450, 335)
   	
   	end
   	

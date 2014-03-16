@@ -1,12 +1,12 @@
 player = {
 
-	x = 1573,
+	x = 1375,
 	y = 1480,
 	width = 39,
 	height = 39,
 	color = { 155, 150, 150 },
 	
-	drawx = 1573,
+	drawx = 1375,
 	drawy = 1480,
 	
 	left = false,
@@ -322,8 +322,6 @@ function player:checkY()
 		else
 			return false, 0
 		end
-		
-		
 
 end
 

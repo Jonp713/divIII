@@ -1,0 +1,21 @@
+tree = {
+
+	{
+ 		startSec = 8,
+		endSec = 9999999,
+		repeatdo = true,
+
+
+		sequence = {
+			{words = "REPENT! The end is near, the great bomb is upon us!!", time = 3},
+			{words = "If you accept the great cube as your savior then you will be saved!!", time = 3},
+			{words = "REPENT REPENT REPENT REPENT REPENT REPENT ", time = 3},
+			{words = "One day a man came up to me and asked 'Can you get the hell out of my house?'", time = 5},
+			{words = "I said to him 'This is the house of the great cube! It is yours if you accept him as the one and only shape'", time = 5},
+			{words = "And thus I saved his life. Do you not see the truth yet?'", time = 3},
+		}
+	},
+ 
+}
+
+return tree

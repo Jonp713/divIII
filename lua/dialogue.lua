@@ -1,6 +1,6 @@
 dialogue = {}
 
-function dialogue:new (secIn, sequenceIn, objectIn, repeatIn)
+function dialogue:new (secIn, endSecIn, sequenceIn, objectIn, repeatIn)
   o = {
   
   	state = 1,
@@ -15,9 +15,9 @@ function dialogue:new (secIn, sequenceIn, objectIn, repeatIn)
 	
 	--startSec = (((dayIn * dayLength) + minuteIn) * 60) + secIn,
 	startSec = secIn,
+	endSec = endSecIn,
 
-
-	repeaty = repeatIn,
+	repeatdo = repeatIn,
   	
   	modx = 0,
   	modx2 = 0,
@@ -34,7 +34,7 @@ function dialogue:talk (dia)
 
 	count = #dia
 		
-	if(count > 50)then
+	if(count > 26)then
 	
 		found = false
 	
@@ -63,8 +63,9 @@ function dialogue:talk (dia)
 		self.modx2 = count2 * 3
 		
 		toprint = 'over'
+	end
 	
-	else
+	if(count <= 26)then
 		
 		count = #dia
 	
@@ -74,23 +75,32 @@ function dialogue:talk (dia)
 
 	end
 	
-	self.mody = 20
+	self.mody = 20	
+	
+	if(count > 26)then
+	
+		love.graphics.setColor(255,255,255, 200)
 
-	love.graphics.setColor(0, 0, 0)
-	
-	
-	if(count > 50)then
-	
-		love.graphics.print(dia:sub(0, count2), (self.targetObject.x - self.modx) + (self.targetObject.width/2), self.targetObject.y - self.mody - 12)
-		love.graphics.print(dia:sub(count2 + 1, count), (self.targetObject.x - self.modx2) + (self.targetObject.width/2), self.targetObject.y - self.mody)
+		love.graphics.rectangle('fill', (self.targetObject.x - self.modx) + (self.targetObject.width/2) - 15, self.targetObject.y - self.mody - 47, (count2 * 8) + 10, 57)
 
+		love.graphics.setColor(0, 0, 0, 255)
+	
+		love.graphics.print(dia:sub(0, count2), (self.targetObject.x - self.modx) + (self.targetObject.width/2), self.targetObject.y - self.mody - 35)
+		love.graphics.print(dia:sub(count2 + 1, count), (self.targetObject.x - self.modx2) + (self.targetObject.width/2), self.targetObject.y - self.mody - 20)
+
+  	end
+  	if(count <= 26 and count ~= 0)then
   	
-  	else
+  		love.graphics.setColor(255,255,255, 200)
+
+		love.graphics.rectangle('fill', (self.targetObject.x - self.modx) + (self.targetObject.width/2) - 15, self.targetObject.y - self.mody - 28, (count * 7) + 10, 45)
+
+		love.graphics.setColor(0, 0, 0, 255)
   	
-  	  	love.graphics.print(dia, (self.targetObject.x - self.modx) + (self.targetObject.width/2), self.targetObject.y - self.mody)
+  	  	love.graphics.print(dia, (self.targetObject.x - self.modx) + (self.targetObject.width/2), self.targetObject.y - self.mody - 20)
   	
   	end
-  	
+
 	love.graphics.setColor(255,255,255)
 
 end
@@ -112,7 +122,7 @@ function dialogue:trigger ()
 			self.state = self.state + 1
 		end
 	
-	elseif(self.repeaty)then
+	elseif(self.repeatdo)then
 		self.state = 1
 	else
 		self.finished = true

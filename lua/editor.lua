@@ -97,11 +97,8 @@ function editor:savemap(number)
 	end
 		
 	strg = strg .. " \n}" -- end of map table bracket
-	
-	
-	
+		
 	strg = strg ..'\n\nreturn map, colmap'
-	
 	
 	local f,err = io.open("/Users/TheDon/Desktop/Game/levels/"..number..".txt","w")
 	if not f then return print(err) end
@@ -119,7 +116,20 @@ function editor:saveEvent(number)
 
 		strg = strg .. "\t{\n "        -- add to beginning of row the bracket
 	
-		strg = strg .. '\t\tstartSec = '.. chars[number].events[i].startSec .. " ,"
+		strg = strg .. '\t\tstartSec = '.. chars[number].events[i].startSec .. ",\n"
+		
+		strg = strg .. '\t\tendSec = '.. chars[number].events[i].endSec .. ",\n"
+
+		
+		if(chars[number].events[i].repeatdo)then
+		
+			strg = strg .. '\t\trepeatdo = true,\n'
+		
+		else
+		
+			strg = strg .. '\t\trepeatdo = false,\n'
+
+		end
 		
 		strg = strg .. '\n\n\t\tsequence = {\n'
 		
@@ -127,7 +137,7 @@ function editor:saveEvent(number)
 			
 				strg = strg .. "\t\t\t{"
 			
-				strg = strg .. "x = "..chars[number].events[i].sequence[j].x..", y = "..chars[number].events[i].sequence[j].y..", speed = "..chars[number].events[i].sequence[j].y
+				strg = strg .. "x = "..chars[number].events[i].sequence[j].x..", y = "..chars[number].events[i].sequence[j].y..", speed = "..chars[number].events[i].sequence[j].speed
 				
 				strg = strg ..  "},\n"
 	
@@ -157,7 +167,7 @@ function editor:loadEvent(number)
 		
 	for i = 1, #newvent do
 	
-		chars[number]:newEvent(newvent[i].startSec, newvent[i].sequence, false)
+		chars[number]:newEvent(newvent[i].startSec, newvent[i].endSec, newvent[i].sequence, newvent[i].repeatdo)
 	
 	end
 	
@@ -172,8 +182,20 @@ function editor:saveDialogue(number)
 
 		strg = strg .. "\t{\n "        -- add to beginning of row the bracket
 	
-		strg = strg .. '\t\tstartSec = '.. chars[number].dialogues[i].startSec .. " ,"
+		strg = strg .. '\t\tstartSec = '.. chars[number].dialogues[i].startSec .. ",\n"
 		
+		strg = strg .. '\t\tendSec = '.. chars[number].dialogues[i].endSec .. ",\n"
+		
+		if(chars[number].dialogues[i].repeatdo)then
+		
+			strg = strg .. '\t\trepeatdo = true,\n'
+		
+		else
+		
+			strg = strg .. '\t\trepeatdo = false,\n'
+
+		end
+
 		strg = strg .. '\n\n\t\tsequence = {\n'
 		
 		for j = 1, #chars[number].dialogues[i].sequence do -- find how many movements are in this event
@@ -210,7 +232,7 @@ function editor:loadDialogue(number)
 		
 	for i = 1, #newvent do
 	
-		chars[number]:newDialogue(newvent[i].startSec, newvent[i].sequence, false)
+		chars[number]:newDialogue(newvent[i].startSec, newvent[i].endSec, newvent[i].sequence, newvent[i].repeatdo)
 	
 	end
 	
@@ -254,6 +276,18 @@ function editor:checkKeys(dt)
 		
 		self:saveEvent(3)
 		self:saveDialogue(3)
+		
+		self:saveEvent(4)
+		self:saveDialogue(4)
+		
+		self:saveEvent(5)
+		self:saveDialogue(5)
+		
+		self:saveEvent(6)
+		self:saveDialogue(6)
+		
+		self:saveEvent(7)
+		self:saveDialogue(7)
 					
 		self.Print = 'Files Saved!'
 		self.timer = 5
@@ -423,10 +457,10 @@ function editor:checkKeys(dt)
 			self.Print = 'Time >>>'
 			self.timer = 5
 		
-			modifier = modifier + (dt * 5)
+			modifier = modifier + (dt * 15)
 			forward = true
 			
-			alldt = alldt * 5
+			alldt = alldt * 15
 
 		else
 			self.Print = 'Time >'
@@ -448,10 +482,10 @@ function editor:checkKeys(dt)
 			self.Print = 'Time <<<'
 			self.timer = 5
 			
-			modifier = modifier - (dt * 5)
+			modifier = modifier - (dt * 15)
 			backward = true
 			
-			alldt = alldt * 5
+			alldt = alldt * 15
 
 		else
 			self.Print = 'Time <'
@@ -571,7 +605,7 @@ function editor:checkKeys(dt)
 				
 					}
 
-					chars[i]:newEvent(currentSec, sequence, false)
+					chars[i]:newEvent(currentSec, 9999999, sequence, false)
 				
 				end
 				
@@ -616,7 +650,7 @@ function editor:checkKeys(dt)
 		
 					}
 
-					chars[i]:newDialogue(currentSec, sequence, false)
+					chars[i]:newDialogue(currentSec, 9999999, sequence, false)
 														
 				end
 				

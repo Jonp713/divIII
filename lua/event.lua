@@ -1,6 +1,6 @@
 event = {}
 
-function event:new (secIn, sequenceIn, objectIn, repeatIn)
+function event:new (secIn, endSecIn, sequenceIn, objectIn, repeatIn)
   o = {
   
   	sequence = sequenceIn,
@@ -10,10 +10,11 @@ function event:new (secIn, sequenceIn, objectIn, repeatIn)
 	
 	targetObject = objectIn,
 	
-	repeaty = repeatIn,
+	repeatdo = repeatIn,
 	finished = false,
 	
 	startSec = secIn,
+	endSec = endSecIn,
 	
 	resetslope = true,
   
@@ -29,7 +30,7 @@ function event:new (secIn, sequenceIn, objectIn, repeatIn)
   }  
   setmetatable(o, self)
   self.__index = self
-	table.insert(timeevents, o)
+  table.insert(timeevents, o)
   return o
 end
 
@@ -48,7 +49,7 @@ function event:trigger()
 		
 		if(self.resetslope)then
 		
-			if(backward and editorMode)then
+			if(backward and editorMode and self.state > 1)then
 
 				self.resetslope = false
 				deltax = (self.targetObject.x + (self.targetObject.width/2)) - self.sequence[self.state - 1].x
@@ -121,7 +122,7 @@ function event:trigger()
 		end
 
 
-	elseif(self.repeaty)then
+	elseif(self.repeatdo)then
 	
 		self.state = 1
 	

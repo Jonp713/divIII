@@ -1,0 +1,19 @@
+tree = {
+
+	{
+ 		startSec = 1,
+		endSec = 9999999,
+		repeatdo = true,
+
+
+		sequence = {
+			{words = "ooooo yeeeeaahhhh shabooom bob peep", time = 3},
+			{words = "TRALALALA, tralalalala, doop dooop doop doop doop", time = 3},
+			{words = "ooh baby tonight yeah, tonight, shabomp", time = 3},
+			{words = "hey yeah oh yeah oh yeah yes yes yessssss", time = 3},
+		}
+	},
+ 
+}
+
+return tree

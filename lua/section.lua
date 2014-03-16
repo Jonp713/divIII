@@ -149,6 +149,12 @@ function section:displayGrid ()
                 love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
                 love.graphics.setColor(255, 255, 255)
             end 
+            if self.grid[y][x] == 12 then
+    			love.graphics.draw( noteblock, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
+            end 
+            if self.grid[y][x] == 13 then
+    			love.graphics.draw( noteblock2, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
+            end 
         end
     end
     

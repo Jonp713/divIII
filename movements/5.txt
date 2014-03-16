@@ -1,0 +1,17 @@
+tree = {
+
+	{
+ 		startSec = 1,
+		endSec = 9999999,
+		repeatdo = false,
+
+
+		sequence = {
+			{x = 3990.4637048666, y = 1521.6458853719, speed = 50},
+			{x = 2542.4615909277, y = 1521.6458853719, speed = 50},
+		}
+	},
+ 
+}
+
+return tree

@@ -254,6 +254,20 @@ function moveTowards(leader, follower, slope, speed, dt)
 end
 
 function otherKeyChecks()
+	if (love.keyboard.isDown('g') and gpressable) then
+		gpressable = false
+		
+		if(editorMode)then
+		
+
+		else
+		
+
+		
+		end
+	end
+		
+
 	if (love.keyboard.isDown('f') and fpressable) then
 		fpressable = false
 		
@@ -269,12 +283,13 @@ function otherKeyChecks()
 		
 		else
 		
-		editorMode = true
-		gamestartSec = love.timer.getTime()
-		--love.window.setFullscreen(true, "desktop")
+			editorMode = true
+			modifier = modifier + math.floor(love.timer.getTime() - gamestartSec)
+			
+			--love.window.setFullscreen(true, "desktop")
 		
-		editor.Print = 'Editor Mode'
-		editor.timer = 5
+			editor.Print = 'Editor Mode'
+			editor.timer = 5
 		
 		end
 
@@ -343,6 +358,11 @@ function otherKeyChecks()
 	if(love.keyboard.isDown(',') == false)then
 	
 		backward = false
+	
+	end
+	if(love.keyboard.isDown('g') == false)then
+	
+		gpressable = true
 	
 	end
 end

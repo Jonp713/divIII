@@ -1,5 +1,99 @@
 tree = {
 
+	{
+ 		startSec = 1,
+		endSec = 9999999,
+		repeatdo = false,
+
+
+		sequence = {
+			{words = "I am sooo borrredd", time = 8},
+			{words = "What is there to do today??", time = 7},
+		}
+	},
+	{
+ 		startSec = 33,
+		endSec = 9999999,
+		repeatdo = false,
+
+
+		sequence = {
+			{words = "Oh my goodness, what is this beauty that enters my ears?", time = 8},
+			{words = "Such a melody from such a grand rectangular voice, it is a miracle", time = 7},
+		}
+	},
+	{
+ 		startSec = 48,
+		endSec = 299,
+		repeatdo = true,
+
+
+		sequence = {
+			{words = "Sing this beautiful melody you great creature!!!", time = 5},
+			{words = "I have never heard such beautiful music, I am ready to die", time = 4},
+			{words = "llala doop doop yeah just like that", time = 3},
+		}
+	},
+	{
+ 		startSec = 350,
+		endSec = 9999999,
+		repeatdo = false,
+
+
+		sequence = {
+			{words = "Oh! look at the time, I best be going now", time = 3},
+		}
+	},
+	{
+ 		startSec = 361,
+		endSec = 9999999,
+		repeatdo = false,
+
+
+		sequence = {
+			{words = "Hello there.", time = 3},
+			{words = "", time = 7},
+			{words = "Oh wow magic, I love magic", time = 5},
+			{words = "", time = 11},
+		}
+	},
+	{
+ 		startSec = 385,
+		endSec = 9999999,
+		repeatdo = false,
+
+
+		sequence = {
+			{words = "Oh my this is amazing. I didn't know magic felt this good", time = 3},
+			{words = "", time = 10},
+			{words = "We should meet up and do this again sometime", time = 3},
+			{words = "Weeeeeeeeee", time = 5},
+		}
+	},
+	{
+ 		startSec = 420,
+		endSec = 9999999,
+		repeatdo = false,
+
+
+		sequence = {
+			{words = "", time = 7},
+			{words = "That is correct, I did know exactly where this was", time = 4},
+			{words = "But it was really fun to fly up here!!", time = 3},
+			{words = "", time = 7},
+			{words = "Yes, lets go", time = 3},
+		}
+	},
+	{
+ 		startSec = 476,
+		endSec = 9999999,
+		repeatdo = false,
+
+
+		sequence = {
+			{words = "words", time = 3},
+		}
+	},
  
 }
 

@@ -120,7 +120,7 @@ function camera:checkKeys(dt)
 	
 	end
 	
-	if(love.keyboard.isDown('down') == false and love.keyboard.isDown('up') == false)then
+	if(love.keyboard.isDown('down') == false and love.keyboard.isDown('up') == false and ifcinematic == false)then
 	
 		if(self.modifier > 0)then
 	

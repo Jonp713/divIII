@@ -53,7 +53,7 @@ section:new(4, 1, maps[14], colmaps[14], "name")
 
 section:new(0, 2, maps[4], colmaps[4], "name")
 section:new(1, 2, maps[5], colmaps[5], "start")
-section:new(2, 2, maps[6], colmaps[6], "name")
+arrrhouse = section:new(2, 2, maps[6], colmaps[6], "name")
 section:new(3, 2, maps[15], colmaps[15], "name")
 section:new(4, 2, maps[16], colmaps[16], "name")
 

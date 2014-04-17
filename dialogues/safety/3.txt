@@ -94,21 +94,12 @@ tree = {
 	{
  		startSec = 476,
 		endSec = 9999999,
-		isSecret = 1,
+		isSecret = 0,
 		repeatdo = false,
 
 
 		sequence = {
-			{words = "", time = 5},
-			{words = "yes so we are discussing how the bomb is diffused. Why are we doing that again?", time = 5},
-			{words = "", time = 5},
-			{words = "Yes, I agree. But what if somehow someone hears us and manages to diffuse the bomb? ", time = 5},
-			{words = "", time = 5},
-			{words = "Yes I agree", time = 4},
-			{words = "", time = 5},
-			{words = "I think you are right. I kind of want to go swimming though", time = 5},
-			{words = "", time = 2},
-			{words = "Lets go!", time = 2},
+			{words = "words", time = 3},
 		}
 	},
  

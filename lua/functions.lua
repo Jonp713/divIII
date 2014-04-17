@@ -1,3 +1,31 @@
+function time()
+
+	 --updates the current second, includes weird editor behavior
+ 	if(editorMode)then
+ 	
+		currentSec = math.floor(modifier)
+		currentMinute = math.floor(modifier/60)
+
+	else
+
+		--[[
+		if(opening.finished == false)then
+	
+			modifier = modifier - dt
+		
+		end
+		]]
+
+		currentSec = math.floor((love.timer.getTime() - gamestartSec) + modifier)
+		currentMinute = math.floor(math.floor(love.timer.getTime() - gamestartSec + modifier)/60)
+
+	end
+
+	currentDay = math.ceil(((currentSec + 1)/60)/dayLength)
+	currentHour = math.ceil(((currentSec + 1)/hourLength) - ((currentDay - 1) *24))	
+	
+end
+
 function collisionCheckImage(object1, object2)
 
 	c1x = object1.x
@@ -32,8 +60,6 @@ function collisionCheckImage(object1, object2)
 		return true -- 3 {,
 	
 	end
-
-
 end
 
 
@@ -221,6 +247,31 @@ function collisionCheckPoint(x1, y1, radius, x2, y2, length2, height2)
 
 end
 
+function collisionCheck2Points(x1, y1, radius, x2, y2, radius)
+
+	p1x = x1 - radius
+	p1y = y1 - radius
+	
+	p2x = x1 + radius
+	p2y = y1 + radius
+	
+	c1x = x2 - radius
+	c1y = y2 - radius
+	
+	c2x = x2 + radius
+	c2y = y2 + radius
+
+	if((p1x >= c1x and p1x <= c2x) or (p2x >= c1x and p2x <= c2x))then
+		if((p1y >= c1y and p1y <= c2y) or (p2y >= c1y and p2y <= c2y))then
+	
+			return true -- 4 ,}
+			
+		end
+	end
+
+end
+
+
 function moveTowardsBottom(leader, follower, slope, xspeed, yspeed, dt)
 
 	if(follower.x + (follower.width/2) < leader.x)then
@@ -275,6 +326,7 @@ function otherKeyChecks()
 		if(editorMode)then
 		
 		editorMode = false
+		fast = false
 		gamestartSec = love.timer.getTime()
 		
 		editor.Print = 'Live Mode'
@@ -363,6 +415,16 @@ function otherKeyChecks()
 	if(love.keyboard.isDown('g') == false)then
 	
 		gpressable = true
+	
+	end
+	if(love.keyboard.isDown(',') == false)then
+	
+		commapressable = true
+	
+	end
+	if(love.keyboard.isDown('.') == false)then
+	
+		periodpressable = true
 	
 	end
 end

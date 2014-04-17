@@ -29,7 +29,7 @@ tree = {
 		sequence = {
 			{words = "Right on time.", time = 3},
 			{words = "So the bomb is located in the building at the top of this here grey block", time = 5},
-			{words = "In order to get there, I am going to have to do some magic. Normally you would have to climb that tree to the right", time = 5},
+			{words = "In order to get there, I am going to have to do some magic.", time = 5},
 			{words = "So. On the count of three I am going to cast a spell", time = 5},
 			{words = "1", time = 2},
 			{words = "2", time = 2},
@@ -57,20 +57,12 @@ tree = {
 	{
  		startSec = 476,
 		endSec = 9999999,
-		isSecret = 1,
+		isSecret = 0,
 		repeatdo = false,
 
 
 		sequence = {
-			{words = "Okay we are here and alone and no one is listening", time = 5},
-			{words = "", time = 5},
-			{words = "You know, I am not sure. But now that we are here, we may as well discuss it.", time = 5},
-			{words = "", time = 5},
-			{words = "Mmmm Yes. It would be terrible if they heard that all you have to do is stand on top of the bomb and press B in order to diffuse it", time = 8},
-			{words = "", time = 1},
-			{words = "So I guess maybe it is safer that we don't discuss it", time = 5},
-			{words = "", time = 2},
-			{words = "Me too", time = 5},
+			{words = "words", time = 3},
 		}
 	},
  

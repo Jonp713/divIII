@@ -1,15 +1,9 @@
 tree = {
 
 	{
- 		number = 1,
-		startSec = 1,
+ 		startSec = 1,
 		endSec = 9999999,
 		isSecret = 0,
-
-
-		secretSeq = {
-			{words = "", time = 5},
-		},
 		repeatdo = false,
 
 
@@ -21,15 +15,9 @@ tree = {
 		}
 	},
 	{
- 		number = 2,
-		startSec = 70,
+ 		startSec = 70,
 		endSec = 9999999,
 		isSecret = 0,
-
-
-		secretSeq = {
-			{words = "", time = 5},
-		},
 		repeatdo = false,
 
 
@@ -47,15 +35,9 @@ tree = {
 		}
 	},
 	{
- 		number = 3,
-		startSec = 170,
+ 		startSec = 170,
 		endSec = 9999999,
 		isSecret = 0,
-
-
-		secretSeq = {
-			{words = "", time = 5},
-		},
 		repeatdo = false,
 
 
@@ -66,15 +48,9 @@ tree = {
 		}
 	},
 	{
- 		number = 4,
-		startSec = 202,
+ 		startSec = 202,
 		endSec = 9999999,
 		isSecret = 0,
-
-
-		secretSeq = {
-			{words = "", time = 5},
-		},
 		repeatdo = false,
 
 
@@ -83,15 +59,9 @@ tree = {
 		}
 	},
 	{
- 		number = 5,
-		startSec = 244,
+ 		startSec = 244,
 		endSec = 9999999,
 		isSecret = 0,
-
-
-		secretSeq = {
-			{words = "", time = 5},
-		},
 		repeatdo = false,
 
 
@@ -106,7 +76,7 @@ tree = {
 			{words = "I thought you wanted to talk about what happened between us?!!", time = 4},
 			{words = "", time = 2},
 			{words = "How could I be so stupid?", time = 3},
-			{words = "You know the moment we kissed for the first time at the forest lake near the black wall . . . I thought I was in love with you", time = 7},
+			{words = "You know the moment we kissed for the first time at the forest lake near the black wall . . . I thought I was in love you with you", time = 7},
 			{words = "but know I realize you are just a stupid idiot", time = 3},
 			{words = "Goodbye Tooper!!", time = 3},
 		}

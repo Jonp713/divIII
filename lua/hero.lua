@@ -1,9 +1,9 @@
 player = {
 
-	x = 1375,
-	y = 1480,
-	width = 39,
-	height = 39,
+	x = 1200,
+	y = 1420,
+	width = 41,
+	height = 60,
 	color = { 155, 150, 150 },
 	
 	drawx = 1375,
@@ -38,6 +38,8 @@ player = {
 	jumped = false,
 	
 	lock = false,
+	
+	inExt = false,
 }
 
 function player:gravity(dt)
@@ -49,7 +51,7 @@ function player:gravity(dt)
 	
 	else
 		
-		self.yacc = 25
+		self.yacc = 1000
 		
 		if(self.yspeed > self.maxyspeed)then
 
@@ -77,9 +79,9 @@ function player:checkKeys(dt)
  
 		self.moving = true
   
-		self.acc = -5
+		self.acc = -250
 		if(self.speed > - 200)then
-			self.acc = - 40
+			self.acc = - 800
 		end
 		if(self.speed < -self.maxspeed)then
 			self.acc = 0
@@ -111,9 +113,9 @@ function player:checkKeys(dt)
 	
 		self.moving = true
 
-		self.acc = 5
+		self.acc = 250
 		if(self.speed < 200)then
-			self.acc = 40
+			self.acc = 800
 		end
 		if(self.speed > self.maxspeed)then
 			self.acc = 0
@@ -184,15 +186,28 @@ function player:move(dt)
 		end
 	end
   	
-  	self.speed = self.speed + self.acc
-	self.x = self.x + self.speed * dt
+  	self.speed = self.speed + (self.acc * dt) --needs to be in delta
+	self.x = self.x + self.speed * dt 
     
-    self.yspeed = self.yspeed + self.yacc
-	self.y = self.y + self.yspeed * dt
+    self.yspeed = self.yspeed + (self.yacc * dt) --needs to be in delta
+	
+	--dont want to overdo delta time here
+	newyspeed = self.yspeed * dt
+	
+	if(newyspeed > 20)then
+		
+		newyspeed = 20
+		
+	end
+	
+	if(newyspeed > 0)then
+		
+	end
+	
+	self.y = self.y + newyspeed
 	
     self.reverseX, self.correctionX = self:checkX()
     self.reverseY, self.correctionY = self:checkY()
-
 
 end
 
@@ -360,4 +375,24 @@ function player:jump()
 	 	self.jumped = true
 	end
 	
+end
+
+function player:update(dt)
+
+
+  	--enacts gravity on the player
+  	player:gravity(dt)
+  	
+  	--checks to see if player movement key is pressed, adds speed and acceleration to player depending on air/ground/currentspeed
+	player:checkKeys(dt)
+	
+	--figure out which section the player is in....only draw one section over
+	player:whichSection()
+	
+	--move players
+	player:move(dt)
+    
+    --make sure player movement is not illegal, if so reset it
+    player:checkMovement()
+		
 end

@@ -5,6 +5,8 @@ camera.scaleX = 1
 camera.scaleY = 1
 camera.rotation = 0
 camera.modifier = 0
+camera.inextension = false
+camera.drawNum = 1
  
 function camera:set()
 
@@ -23,6 +25,7 @@ function camera:debug()
 
   	love.graphics.print(self._bounds.y2, 500, 200)
   	love.graphics.print(self._bounds.x2, 500, 100)
+	
 end
  
 function camera:move(dx, dy)
@@ -35,7 +38,6 @@ function camera:rotate(dr)
 end
  
 function camera:scale(sx, sy)
-toprint = 'scaling'
   sx = sx or 1
   self.scaleX = self.scaleX * sx
   self.scaleY = self.scaleY * (sy or sx)
@@ -88,9 +90,6 @@ function camera:getPos()
 
 	y = (love.mouse.getY() * self.scaleY) + (self._y * 5)
 	x = (love.mouse.getX() * self.scaleX) + (self._x * 5)
-	
-	love.graphics.print("x: " .. x .. ' ,', 10, 10)
-	love.graphics.print("y: " .. y, 10, 20)
 	
 	return x,y
 	
@@ -195,4 +194,27 @@ function camera:drawBackground()
     v.draw()
     camera:unset()
   end
+end
+
+function camera:displayMath()
+	
+   
+	 
+	if(self.inextension)then
+		
+	  	--sets the camera position based on the player
+	  	self:setPosition(player.drawx - (640 * camera.scaleX),  player.drawy - ((230 + camera.modifier) * camera.scaleY))
+  	
+		
+		--sets camera bounds based an predetermined extensionsofdrawcaterogies width and height...set in extensions(getsize)
+		self:setBounds(extensionsSizes.x[self.drawNum], extensionsSizes.y[self.drawNum], extensionsSizes.x2[self.drawNum] - sections[1].width, extensionsSizes.y2[self.drawNum] - sections[1].height)
+		
+	else 	
+	  	--sets the camera position based on the player
+	  	self:setPosition(player.drawx - (640 * camera.scaleX),  player.drawy - ((230 + camera.modifier) * camera.scaleY))
+  	
+		
+		self:setBounds(0, 0, worldWidth - sections[1].width, worldHeight - sections[1].height)
+  	
+	end
 end

@@ -156,3 +156,21 @@ function interaction:text (textIn)
 	love.graphics.setColor(255,255,255)
 	
 end
+
+function interactions:checkAll()
+
+	for i = 1, #interactions do
+	
+		if(interactions[i].triggerGo)then
+	
+			interactions[i]:trigger()
+		else
+		  	if(interactions[i].startTime < currentSec and interactions[i].endTime > currentSec)then
+	
+			interactions[i]:display()
+		
+			end
+		end
+	end
+
+end

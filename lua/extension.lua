@@ -1,7 +1,7 @@
-section = {}
-sections = {}
+extension = {}
+extensions = {}
 
-function section:new (xIn, yIn, gridIn, colIn, nameIn)
+function extension:new (xIn, yIn, gridIn, colIn, nameIn, numbIn)
 	o = {
   		--large scale coordinate of sections
 		xBig = xIn,
@@ -14,28 +14,19 @@ function section:new (xIn, yIn, gridIn, colIn, nameIn)
 		grid = gridIn,
 		
 		col = colIn,
+		drawNum = numbIn,
 		
 		coords = { {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, },
 	
 		name = nameIn,
 		
+		isIn = false,
+		
 		blockwidth = 40,
 		blockheight = 40
   
 	}  
-	-- determines world width and height based off of this new section
-
-	if((xIn + 1) * o.width > worldWidth) then
-
-		worldWidth = (xIn + 1) * o.width
-
-	end
-	if((yIn + 1) * o.height > worldHeight) then
-
-		worldHeight = (yIn + 1) * o.height
-
-	end	
-	
+		
 	for yIn=1, #o.grid do
         for xIn = 1, 32 do
         
@@ -45,6 +36,7 @@ function section:new (xIn, yIn, gridIn, colIn, nameIn)
     end
 	
 	--adds this section to aggregate section table
+	table.insert(extensions, o)
 	table.insert(sections, o)
   	--does necessary lua stuf
 	setmetatable(o, self)
@@ -53,29 +45,28 @@ function section:new (xIn, yIn, gridIn, colIn, nameIn)
 end
 
 --returns section and specific grid piece that is at given x,y coordinates
-function section:getSection (xIn, yIn)
+function extension:getSection (xIn, yIn)
 	  for y=1, #self.grid do
         for x= 1, #self.grid[y] do
-		    if( ((x -1) * self.blockwidth) + self.x  <= xIn and (x * self.blockwidth) + self.x  >= xIn)then
-		    	if( ((y -1) * self.blockheight) + self.y  <= yIn and (y * self.blockheight) + self.y  >= yIn)then
-		    	
-		    		return true, x, y, self.xBig, self.yBig, self.name
-		    	
-		    	end
-		    end
+			    if( ((x -1) * self.blockwidth) + self.x  <= xIn and (x * self.blockwidth) + self.x  >= xIn)then
+			    	if( ((y -1) * self.blockheight) + self.y  <= yIn and (y * self.blockheight) + self.y  >= yIn)then
+			    	
+			    		return true, x, y, self.xBig, self.yBig, self.name
+			    	
+			    	end
+			    end
         end
     end
 end
 
 
-function section:displayGrid ()
+function extension:displayGrid ()
 
     for y=1, #self.grid do
         for x= 1, #self.grid[y] do
             if self.grid[y][x] == -1 then
             
             	love.graphics.setColor(0, 0, 0, 255)
-				love.graphics.setNewFont(8)
 
                 love.graphics.rectangle("line", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
                 
@@ -83,27 +74,21 @@ function section:displayGrid ()
             	love.graphics.print(", " .. x, ((x -1) * self.blockwidth) + self.x + 20, ((y - 1) * self.blockheight) + self.y + 10)
             	love.graphics.print(self.xBig .. ', '..self.yBig, ((x -1) * self.blockwidth) + self.x + 5, ((y - 1) * self.blockheight) + self.y + 25)
 				love.graphics.setColor(255,255,255,255)
-				love.graphics.setNewFont(12)
+
 
             end
-        	if self.grid[y][x] == 0 then
-              love.graphics.setColor(0, 0, 0)
+            if self.grid[y][x] == 1 then
+                
+                love.graphics.setColor(0, 0, 0)
                 love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
                 love.graphics.setColor(255, 255, 255)
-
-			end
-            if self.grid[y][x] == 1 then
-
-  
-                love.graphics.draw(whitesquig2, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-
-
 
             end   
         	if self.grid[y][x] == 2 then
             
-                love.graphics.draw(whitesquig, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-
+               love.graphics.setColor(0, 140, 20)
+                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
+                love.graphics.setColor(255, 255, 255)
             end
             if self.grid[y][x] == 3 then
             
@@ -162,10 +147,6 @@ function section:displayGrid ()
             if self.grid[y][x] == 13 then
     			love.graphics.draw( noteblock2, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
             end 
-            if self.grid[y][x] == 14 then
-    			love.graphics.draw( bomb, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-            end 
-            
         end
     end
     
@@ -189,7 +170,7 @@ function section:displayGrid ()
 end
 
 
-function section:collide(object, xory)
+function extension:collide(object, xory)
 
   for y=1, #self.col do
         for x= 1, #self.col[y] do
@@ -295,7 +276,7 @@ function section:collide(object, xory)
     end
 end
 
-function section:onTop(object)
+function extension:onTop(object)
  	for y=1, #self.col do
         for x= 1, #self.col[y] do
             if self.col[y][x] > 0  then
@@ -307,4 +288,87 @@ function section:onTop(object)
           	end	
         end 
     end 
+end
+
+function extensions:getSizes()
+	
+	extensionsSizes = {
+
+		x = {},
+		y = {},
+		x2 = {},
+		y2 = {}
+
+	}
+	
+	amountofdraws = 0
+ 	for i=1, #extensions do
+		
+		if(extensions[i].drawNum > amountofdraws)then
+			
+			amountofdraws = extensions[i].drawNum
+			
+		end
+
+	end
+	
+	o = {}
+
+	--manditory instertion of tables based on amount of section parts
+	for i = 1, amountofdraws do
+		
+		table.insert(extensionsSizes.x, o)
+		table.insert(extensionsSizes.y, o)
+		table.insert(extensionsSizes.x2, o)
+		table.insert(extensionsSizes.y2, o)
+		
+	end
+	
+ 	for i=1, #extensions do
+
+		x = extensions[i].x
+		y = extensions[i].y
+		x2 = extensions[i].x + extensions[i].width
+		y2 = extensions[i].y + extensions[i].height
+		
+        for j= 1, #extensions do	
+
+			if(extensions[i].drawNum == extensions[j].drawNum)then
+			
+				if(extensions[j].x < x)then
+					
+					x = extensions[j].x
+					
+				end
+				
+				if(extensions[j].y < y)then
+					
+					y = extensions[j].y
+					
+				end
+				
+				if(extensions[j].x + extensions[i].width > x)then
+					
+					x2 = extensions[j].x + extensions[i].width
+					
+				end
+				
+				if(extensions[j].y + extensions[i].height > y)then
+					
+					y2 = extensions[j].y + extensions[i].height
+					
+				end
+				
+				
+			end
+			
+		end
+		
+		extensionsSizes.x[extensions[i].drawNum] = x
+		extensionsSizes.y[extensions[i].drawNum] = y
+		extensionsSizes.x2[extensions[i].drawNum] = x2
+		extensionsSizes.y2[extensions[i].drawNum] = y2
+
+	end
+
 end

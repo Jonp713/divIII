@@ -32,6 +32,8 @@ editor = {
 	
 	},
 	
+	
+	day = 0,
 	name = {""},
 	Print = '',
 	timer = 0
@@ -100,7 +102,7 @@ function editor:savemap(number)
 		
 	strg = strg ..'\n\nreturn map, colmap'
 	
-	local f,err = io.open("/Users/TheDon/Desktop/Game/levels/"..number..".txt","w")
+	local f,err = io.open("/Users/Bah-Ru-Daga/Desktop/Game/levels/"..number..".txt","w")
 	if not f then return print(err) end
 	f:write(strg)
 	f:close()
@@ -115,11 +117,12 @@ function editor:saveEvent(number)
 	for i = 1, #chars[number].events do -- find how many events there are in this tree
 
 		strg = strg .. "\t{\n "        -- add to beginning of row the bracket
+		
+		strg = strg .. '\t\tnumber = '.. i .. ",\n"
 	
 		strg = strg .. '\t\tstartSec = '.. chars[number].events[i].startSec .. ",\n"
 		
 		strg = strg .. '\t\tendSec = '.. chars[number].events[i].endSec .. ",\n"
-
 		
 		if(chars[number].events[i].repeatdo)then
 		
@@ -137,7 +140,7 @@ function editor:saveEvent(number)
 			
 				strg = strg .. "\t\t\t{"
 			
-				strg = strg .. "x = "..chars[number].events[i].sequence[j].x..", y = "..chars[number].events[i].sequence[j].y..", speed = "..chars[number].events[i].sequence[j].speed
+				strg = strg .. "x = "..chars[number].events[i].sequence[j].x..", y = "..chars[number].events[i].sequence[j].y..", speed = "..chars[number].events[i].sequence[j].speed..", door = false"---..chars[number].events[i].sequence[j].door
 				
 				strg = strg ..  "},\n"
 	
@@ -153,7 +156,7 @@ function editor:saveEvent(number)
 	
 	strg = strg ..'\n\nreturn tree'
 
-	local f,err = io.open("/Users/TheDon/Desktop/Game/movements/"..number..".txt","w")
+	local f,err = io.open("/Users/Bah-Ru-Daga/Desktop/Game/movements/"..number..".txt","w")
 	if not f then return print(err) end
 	f:write(strg)
 	f:close()
@@ -181,11 +184,30 @@ function editor:saveDialogue(number)
 	for i = 1, #chars[number].dialogues do -- find how many events there are in this tree
 
 		strg = strg .. "\t{\n "        -- add to beginning of row the bracket
+		
+		strg = strg .. '\t\tnumber = '.. i .. ",\n"
 	
 		strg = strg .. '\t\tstartSec = '.. chars[number].dialogues[i].startSec .. ",\n"
 		
 		strg = strg .. '\t\tendSec = '.. chars[number].dialogues[i].endSec .. ",\n"
 		
+		strg = strg .. '\t\tisSecret = '.. chars[number].dialogues[i].secretType .. ",\n"		
+		
+		strg = strg .. '\n\n\t\tsecretSeq = {\n'
+		
+		--talking that happens if secrecy is interupted
+		for j = 1, #chars[number].dialogues[i].secretSeq do -- find how many dialogues are in this event
+			
+				strg = strg .. "\t\t\t{"
+			
+				strg = strg .. 'words = "'..chars[number].dialogues[i].secretSeq[j].words..'", time = '..chars[number].dialogues[i].secretSeq[j].time
+				
+				strg = strg ..  "},\n"
+	
+		end
+		strg = strg .. "\t\t},\n" -- end of secretsequence bracket
+		
+
 		if(chars[number].dialogues[i].repeatdo)then
 		
 			strg = strg .. '\t\trepeatdo = true,\n'
@@ -218,7 +240,7 @@ function editor:saveDialogue(number)
 	
 	strg = strg ..'\n\nreturn tree'
 
-	local f,err = io.open("/Users/TheDon/Desktop/Game/dialogues/"..number..".txt","w")
+	local f,err = io.open("/Users/Bah-Ru-Daga/Desktop/Game/dialogues/"..number..".txt","w")
 	if not f then return print(err) end
 	f:write(strg)
 	f:close()
@@ -232,7 +254,7 @@ function editor:loadDialogue(number)
 		
 	for i = 1, #newvent do
 	
-		chars[number]:newDialogue(newvent[i].startSec, newvent[i].endSec, newvent[i].sequence, newvent[i].repeatdo)
+		chars[number]:newDialogue(newvent[i].startSec, newvent[i].endSec, newvent[i].sequence, newvent[i].repeatdo, newvent[i].isSecret, newvent[i].secretSeq)
 	
 	end
 	
@@ -242,52 +264,20 @@ function editor:checkKeys(dt)
 
 	if love.keyboard.isDown('/') then
 
-		self:savemap(1)
-		self:savemap(2)
-		self:savemap(3)
-		self:savemap(4)
-		self:savemap(5)
-		self:savemap(6)
-		self:savemap(7)
-		self:savemap(8)
-		self:savemap(9)
-		self:savemap(10)
-		self:savemap(11)
-		self:savemap(12)
-		self:savemap(13)
-		self:savemap(14)
-		self:savemap(15)
-		self:savemap(16)
-		self:savemap(17)
-		self:savemap(18)
-		self:savemap(19)
-		self:savemap(20)
-		self:savemap(21)
-		self:savemap(22)
-		self:savemap(24)
-		self:savemap(23)
-		self:savemap(25)
+
+		for i = 1, mapCount do
+	
+			self:savemap(i)
+	
+	
+		end
 		
-		self:saveEvent(1)
-		self:saveDialogue(1)
-		
-		self:saveEvent(2)
-		self:saveDialogue(2)
-		
-		self:saveEvent(3)
-		self:saveDialogue(3)
-		
-		self:saveEvent(4)
-		self:saveDialogue(4)
-		
-		self:saveEvent(5)
-		self:saveDialogue(5)
-		
-		self:saveEvent(6)
-		self:saveDialogue(6)
-		
-		self:saveEvent(7)
-		self:saveDialogue(7)
+		for i = 1, charCount do
+			
+			self:saveEvent(i)
+			self:saveDialogue(i)
+			
+		end
 					
 		self.Print = 'Files Saved!'
 		self.timer = 5
@@ -451,51 +441,106 @@ function editor:checkKeys(dt)
 		end
 	end
 	
+	
+	
 	if(love.keyboard.isDown('.'))then
-		if(love.keyboard.isDown('rshift'))then
-		
-			self.Print = 'Time >>>'
-			self.timer = 5
-		
-			modifier = modifier + (dt * 15)
-			forward = true
+		if(love.keyboard.isDown('lshift') and periodpressable)then
 			
-			alldt = alldt * 15
-
+			if(periodpressable and self.day < dayCount)then
+			
+				self.Print = 'Day >'
+				self.timer = 5
+			
+				self.day = self.day + 1
+				modifier = dayLength * 60 * self.day
+				time()
+				chars:set(1)
+			
+				periodpressable = false
+			
+			end
+			
 		else
-			self.Print = 'Time >'
-			self.timer = 5
-		
-			modifier = modifier + (dt * 2)
-			forward = true
 			
-			alldt = alldt * 2
-
+			if(love.keyboard.isDown('rshift'))then
 		
+				self.Print = 'Time >>>'
+				self.timer = 5
+		
+				modifier = modifier + (dt * 15)
+				forward = true
+			
+				alldt = alldt * 15
+				fast = true
+
+			else
+				self.Print = 'Time >'
+				self.timer = 5
+		
+				modifier = modifier + (dt * 2)
+				forward = true
+				fast = false
+			
+				alldt = alldt * 2
+
+			end
+			
 		end
 		
 	end
 	if(love.keyboard.isDown(','))then
 	
-		if(love.keyboard.isDown('rshift'))then
+		if(love.keyboard.isDown('lshift'))then
 			
-			self.Print = 'Time <<<'
-			self.timer = 5
+			if(commapressable and self.day > 1)then
+				
+				self.Print = 'Day <'
+				self.timer = 5
+		
+				self.day = self.day - 1
+				modifier = dayLength * 60 * self.day
+				time()
+				chars:set(1)
 			
-			modifier = modifier - (dt * 15)
-			backward = true
+				commapressable = false
+					
+			elseif(commapressable and self.day == 1)then
+				
+				self.Print = 'Day <'
+				self.timer = 5
+		
+				self.day = self.day - 1
+				modifier = dayLength * 60 * self.day
+				time()
+				chars:set(2)
 			
-			alldt = alldt * 15
-
+				commapressable = false
+				
+			end
 		else
-			self.Print = 'Time <'
-			self.timer = 5
-		
-			modifier = modifier - (dt * 2)
-			backward = true
 			
-			alldt = alldt * 2
+			if(love.keyboard.isDown('rshift'))then
+			
+				self.Print = 'Time <<<'
+				self.timer = 5
+				fast = true
+			
+				modifier = modifier - (dt * 15)
+				backward = true
+			
+				alldt = alldt * 15
+
+			else
+				self.Print = 'Time <'
+				self.timer = 5
 		
+				modifier = modifier - (dt * 2)
+				backward = true
+				fast = false
+			
+				alldt = alldt * 2
+		
+			end
 		end
 	
 	end
@@ -649,8 +694,14 @@ function editor:checkKeys(dt)
 						{words = "words", time = 3}
 		
 					}
+					
+					secretSeq = {
+			
+						{words = "words", time = 3}
+		
+					}
 
-					chars[i]:newDialogue(currentSec, 9999999, sequence, false)
+					chars[i]:newDialogue(currentSec, 9999999, sequence, false, 0, secretSeq)
 														
 				end
 				
@@ -781,23 +832,19 @@ function editor:selecting()
 
 						if ((bigXout == self.chosen[j].bigX) and (bigYout == self.chosen[j].bigY))then
 													
-							toprint = 'big'
 			
 							if ((xOut == self.chosen[j].x) and (yOut == self.chosen[j].y))then
 							
 								continue = false
-								toprint2 = 'notlittle'
 
 							else
 								
-								toprint2 = 'little'
 								--continue = true
 							
 							end
 											
 						else
 							
-							--toprint = 'big'
 							--continue = true
 
 						end

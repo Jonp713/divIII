@@ -1,15 +1,17 @@
 door = {}
 
-function door:new (enterIn, leaveIn)
+function door:new (enterIn, leaveIn, extensionIn)
   o = {
   
   	opened = false,
   
-	enterx = enterIn.x,
-	entery = enterIn.y,
+  	extension = extensionIn;
+  
+	x = enterIn.x,
+	y = enterIn.y,
 	
-	leavex = leaveIn.x,
-	leavey = leaveIn.y
+	backx = leaveIn.x,
+	backy = leaveIn.y
 		
   }  
   setmetatable(o, self)
@@ -20,12 +22,26 @@ end
 
 function door:open ()
 	if love.keyboard.isDown('z') then
+		
+		for i = 1, #extensions do
+			
+			if(extensions[i].name == self.extension)then
+				 
+				extrax = extensions[i].x
+				extray = extensions[i].y
+				extensions[i].isIn = true;
+				camera.drawNum = extensions[i].drawNum
+			
+			end
+		end
+		
+		player.drawx = self.backx
+		player.drawy = self.backy - 20
+		
+		player.x = self.backx
+		player.y = self.backy - 20
 	
-		player.drawx = self.leavex
-		player.drawy = self.leavey
-		player.x = self.leavex
-		player.y = self.leavey
-
+		camera.inextension = true
 		self.opened = true
 		zpressable = false
 	end
@@ -33,11 +49,13 @@ end
 
 function door:close ()
 	if love.keyboard.isDown('z') then
-		player.drawx = self.enterx
-		player.drawy = self.entery
-		player.x = self.enterx
-		player.y = self.entery
+			
+		player.drawx = self.x
+		player.drawy = self.y - 20
+		player.x = self.x
+		player.y = self.y - 20
 
+		camera.inextension = false
 		self.opened = false
 		zpressable = false
 
@@ -46,16 +64,17 @@ end
 
 function doors:checkAll()
 
-
 	if(zpressable)then
 
 		for i = 1, #doors do
 			if(doors[i].opened == false)then
-				if(collisionCheckPoint(doors[i].enterx, doors[i].entery, 20, player.x, player.y, player.width, player.height))then
+				if(collisionCheckPoint(doors[i].x, doors[i].y, 20, player.x, player.y, player.width, player.height))then
 					doors[i]:open()
 				end
 			else
-				if(collisionCheckPoint(doors[i].leavex, doors[i].leavey, 20, player.x, player.y, player.width, player.height))then
+				
+				if(collisionCheckPoint(doors[i].backx, doors[i].backy, 20, player.x, player.y, player.width, player.height))then
+								
 					doors[i]:close()
 				end
 			end

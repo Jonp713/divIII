@@ -1,5 +1,22 @@
 tree = {
 
+	{
+ 		number = 1,
+		startSec = 9,
+		endSec = 9999999,
+		isSecret = 0,
+
+
+		secretSeq = {
+			{words = "", time = 3},
+		},
+		repeatdo = false,
+
+
+		sequence = {
+			{words = "words", time = 3},
+		}
+	},
  
 }
 

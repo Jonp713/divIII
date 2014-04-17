@@ -1,36 +1,28 @@
 tree = {
 
 	{
- 		startSec = 1,
+ 		number = 1,
+		startSec = 4,
 		endSec = 9999999,
 		repeatdo = false,
 
 
 		sequence = {
-			{x = 1642.669226685, y = 1523.6286114876, speed = 50},
-			{x = 4617.9439401817, y = 1521.6458853719, speed = 50},
+			{x = 1642.669226685, y = 1523.6286114876, speed = 50, door = false},
+			{x = 4617.9439401817, y = 1521.6458853719, speed = 50, door = false},
+			{x = 1304.424154762, y = 1523.5806215729, speed = 50, door = false},
 		}
 	},
 	{
- 		startSec = 150,
+ 		number = 2,
+		startSec = 283,
 		endSec = 9999999,
 		repeatdo = false,
 
 
 		sequence = {
-			{x = 4519.2427986636, y = 1522.7247829072, speed = 50},
-			{x = 918.2693654626, y = 1522.7247829072, speed = 50},
-		}
-	},
-	{
- 		startSec = 283,
-		endSec = 9999999,
-		repeatdo = false,
-
-
-		sequence = {
-			{x = 869.05471285853, y = 1524.7116773314, speed = 50},
-			{x = 512.61876143169, y = 1522.7247829072, speed = 50},
+			{x = 869.05471285853, y = 1524.7116773314, speed = 50, door = false},
+			{x = 512.61876143169, y = 1522.7247829072, speed = 50, door = false},
 		}
 	},
  

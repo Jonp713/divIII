@@ -3,7 +3,7 @@ tree = {
 	{
  		startSec = 8,
 		endSec = 9999999,
-		isSecret = 0,
+		isSecret = 1,
 		repeatdo = true,
 
 

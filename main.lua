@@ -2,7 +2,7 @@ function love.load(args)
 
 	--to prevent repeated key presses
 	zpressable, qpressable, wpressable, apressabe, spressable, dpressable, ppressable, opressable = true
-	mpressable, npressable, bpressable, fpressable, gpressable = true
+	mpressable, npressable, bpressable, fpressable, gpressable, xpressable, cpressable, vpressable = true
 	
 	commapressable, periodpressable = true
 	
@@ -18,21 +18,18 @@ function love.load(args)
 	toprint2 = 1
 	toprint3 = ''
 	toprint4 = ''
+	
+	objects = {}
 
 	drawables = {}
-	--setmetatable(drawables, {__index=table})
 	
 	collidables = {}
-	--setmetatable(collidables, {__index=table})
 	
 	timeevents = {}
-	--setmetatable(collidables, {__index=table})
 	
 	conditionals = {}
-	--setmetatable(collidables, {__index=table})
 	
 	doors = {}
-	--setmetatable(collidables, {__index=table})
 	
 	chars = {}
 	
@@ -68,6 +65,8 @@ function love.load(args)
 	require('lua/door')
 	--cutscenes
 	require("lua/cinematic")
+	--objects
+	require('lua/object')
 	--load maps, create sections
 	require('lua/worldsetup')
 	--sets up,creates, lods characters
@@ -165,10 +164,13 @@ function love.draw()
 		end
 	end
 	
+	objects:draw()
+	
 	-- draw drawable creatures
 	for i = 1, #drawables do
 		drawables[i]:draw()
 	end
+	
 		
 	--animate player...draw them and draw them last
 	player:animate()

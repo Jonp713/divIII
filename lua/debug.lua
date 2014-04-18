@@ -1,9 +1,9 @@
 --[[
 EDITOR
 Drag mouse
+up 5/10 object graphics
 
 OBJECTS
-Set position by mouse click in editor
 
 DRAWING
 
@@ -34,8 +34,6 @@ MENU
 	
 SOUNDS
 
-Louder Softer
-
 HERO
 
 
@@ -60,6 +58,11 @@ n - make an event
 m - make a point
 
 
+z - selected object down graphic
+x - selected object up graphic
+c - create object
+v - delete object
+
 ]]
 
 --Debug/Editor	
@@ -81,9 +84,9 @@ function editorDebug()
 	love.graphics.print('"Hour": '..currentHour , 1180, 52)
 
 	love.graphics.print(editor.Print, 600, 10)
-	love.graphics.print(chars[1].count, 600, 22)
-	love.graphics.print(chars[2].count, 600, 34)
-	love.graphics.print(toprint, 600, 46)
+	love.graphics.print(objects[1].x, 600, 22)
+	love.graphics.print(objects[1].img, 600, 34)
+	love.graphics.print(stone:getWidth( ), 600, 46)
 	love.graphics.print(toprint2, 600, 58)
 	--love.graphics.print('y2'..extensionsSizes.y2[1], 600, 70)
 	

@@ -1,4 +1,4 @@
-images = {}
+
 
 --importing images
 stone = love.graphics.newImage("images/testbox.png")
@@ -23,3 +23,7 @@ qleftimg = love.graphics.newImage("images/braidmockupleft.png")
 
 qleftanim = newAnimation(qleftimg, 40, 60, 0.15, 0)
 qleftanim:setMode("bounce")
+
+
+--objectimages
+images = {stone, wood, tin, red}

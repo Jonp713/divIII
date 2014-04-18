@@ -36,7 +36,10 @@ editor = {
 	day = 0,
 	name = {""},
 	Print = '',
-	timer = 0
+	timer = 0,
+	objectSelect = 1,
+	movingObject = false,
+	clickTime = 0
 
 }
 
@@ -282,6 +285,66 @@ function editor:checkKeys(dt)
 		self.Print = 'Files Saved!'
 		self.timer = 5
 
+	end	
+	if(love.keyboard.isDown('z') and self.objectSelect > 0)then
+
+		if(zpressable and objects[self.objectSelect].img > 1)then
+			zpressable = false
+			
+			self.Print = 'ObjectSelect IMG -'
+			self.timer = 5
+				
+			objects[self.objectSelect].img = objects[self.objectSelect].img - 1
+		
+			
+		end
+		
+	end
+	if(love.keyboard.isDown('x') and self.objectSelect > 0)then
+		
+		self.Print = 'ObjectSelect IMG +'
+		self.timer = 5
+
+		if(xpressable and objects[self.objectSelect].img < #images)then
+			xpressable = false
+
+			
+			
+			objects[self.objectSelect].img = objects[self.objectSelect].img + 1
+		
+			
+		end
+		
+	end
+	if(love.keyboard.isDown('c'))then
+		
+		self.Print = 'Object Created'
+		self.timer = 5
+
+		if(cpressable)then
+			cpressable = false
+
+			x, y = camera:getPos()
+			
+			objects:new(x,y)
+			
+			
+		end
+		
+	end
+	if(love.keyboard.isDown('v'))then
+
+		if(vpressable)then
+			vpressable = false
+			
+			self.Print = 'ObjectSelect Deleted'
+			self.timer = 5
+			
+			table.remove(objects, self.objectSelect)
+			self.objectSelect = 0
+
+		end
+		
 	end
 	
 	if(love.keyboard.isDown('q'))then
@@ -875,4 +938,17 @@ function editor:selecting()
 	
 		end	
    end
+   
+	if( love.mouse.isDown( 'r' ) ) then
+
+		x,y = camera:getPos()
+		
+		objects:checkClick(x,y)
+		
+	else
+		editor.clickTime = 0
+		
+		
+	end
+	
 end

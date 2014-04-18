@@ -412,6 +412,21 @@ function otherKeyChecks()
 		backward = false
 	
 	end
+	if(love.keyboard.isDown('x') == false)then
+	
+		xpressable = true
+	
+	end
+	if(love.keyboard.isDown('c') == false)then
+	
+		cpressable = true
+	
+	end
+	if(love.keyboard.isDown('v') == false)then
+	
+		vpressable = true
+	
+	end
 	if(love.keyboard.isDown('g') == false)then
 	
 		gpressable = true

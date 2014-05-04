@@ -62,13 +62,4 @@ camera:setBounds(0, 0, worldWidth - sections[1].width, worldHeight - sections[1]
 
 --objects
 
-objects:new(100,100)
-objects:new(100,100)
-objects:new(100,100)
-objects:new(100,100)
-objects:new(100,100)
-objects:new(100,100)
-objects:new(100,100)
-objects:new(100,100)
-objects:new(100,100)
-
+editor:loadObjects()

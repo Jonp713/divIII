@@ -98,7 +98,7 @@ function event:trigger()
 			end
 	
 			--weird editor behavior
-			if(editorMode)then
+			if(editorMode or pause)then
 				if(forward)then
 					
 					moveTowardsBottom(self.sequence[self.state], self.targetObject, self.slope, self.xspeedsend, self.yspeedsend, alldt)

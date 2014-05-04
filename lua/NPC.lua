@@ -35,9 +35,9 @@ function npc:newEvent(secIn, endSecIn, sequenceIn, repeatIn)
 
 end
 
-function npc:newDialogue(secIn, endSecIn, sequenceIn, repeatIn, secretTypeIn, secretSeqIn)
+function npc:newDialogue(secIn, endSecIn, sequenceIn, repeatIn, secretTypeIn, secretSeqIn, hiddenArray)
 	
-	new = dialogue:new(secIn, endSecIn, sequenceIn, self, repeatIn, secretTypeIn, secretSeqIn)
+	new = dialogue:new(secIn, endSecIn, sequenceIn, self, repeatIn, secretTypeIn, secretSeqIn, hiddenArray)
   	table.insert(self.dialogues, new)
 
 end
@@ -135,6 +135,26 @@ function chars:events()
 
 end
 
+function chars:diaChop()
+	--scroll through characters
+	for i = 1, #chars do
+
+		--scroll through their dialogues
+		for j = 1, #chars[i].dialogues do
+			
+			for l = 1, #chars[i].dialogues[j].sequence do
+				
+				chars[i].dialogues[j]:chop(chars[i].dialogues[j].sequence[l].words, l)
+				
+			end
+			
+		end
+		
+		
+	end
+	
+end
+
 function chars:dialogues ()
 
 	--scroll through characters
@@ -162,8 +182,7 @@ function chars:dialogues ()
 					chars[i].dialogues[j].resetslope = true
 		
 				end
-			
-			
+					
 			else
 				--check for dialogue events triggered by time, enact them
 				if(chars[i].dialogues[j].startSec <= currentSec and chars[i].dialogues[j].finished == false)then
@@ -202,9 +221,6 @@ function chars:set(numberQ)
 		for e = 1, #chars[i].events do
 			
 			if(chars[i].events[e].startSec <= currentSec)then	
-					
-				toprint = chars[i].events[e].startSec
-				toprint2 = currentSec
 				
 				chars[i].events[e].finished = true
 				chars[i].count = e
@@ -227,7 +243,6 @@ function chars:set(numberQ)
 				end
 			elseif(numberQ == 2)then
 				
-				toprint = 'ok'
 				
 				chars[i].x = chars[i].events[1].sequence[1].x - chars[i].width/2
 				chars[i].y = chars[i].events[1].sequence[1].y - chars[i].height

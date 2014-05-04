@@ -54,15 +54,16 @@ end
 
 --returns section and specific grid piece that is at given x,y coordinates
 function section:getSection (xIn, yIn)
-	  for y=1, #self.grid do
+	
+	for y=1, #self.grid do
         for x= 1, #self.grid[y] do
 		    if( ((x -1) * self.blockwidth) + self.x  <= xIn and (x * self.blockwidth) + self.x  >= xIn)then
 		    	if( ((y -1) * self.blockheight) + self.y  <= yIn and (y * self.blockheight) + self.y  >= yIn)then
-		    	
+		    		
 		    		return true, x, y, self.xBig, self.yBig, self.name
-		    	
-		    	end
-		    end
+	
+				end
+			end
         end
     end
 end
@@ -106,16 +107,21 @@ function section:displayGrid ()
 
             end
             if self.grid[y][x] == 3 then
-            
-                love.graphics.setColor(20, 20, 180)
+				
+                love.graphics.setColor(0, 0, 0)
                 love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
                 love.graphics.setColor(255, 255, 255)
+            
+                love.graphics.draw(slopedup, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
+
             end
             if self.grid[y][x] == 4 then
             
-                love.graphics.setColor(180, 20, 20)
+                love.graphics.setColor(0, 0, 0)
                 love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
                 love.graphics.setColor(255, 255, 255)
+            
+                love.graphics.draw(slopeddown, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
             end
             if self.grid[y][x] == 5 then
             
@@ -157,13 +163,13 @@ function section:displayGrid ()
                 love.graphics.setColor(255, 255, 255)
             end 
             if self.grid[y][x] == 12 then
-    			love.graphics.draw( noteblock, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
+                love.graphics.draw(wood, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
             end 
             if self.grid[y][x] == 13 then
-    			love.graphics.draw( noteblock2, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
+                love.graphics.draw(stone, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
             end 
             if self.grid[y][x] == 14 then
-    			love.graphics.draw( bomb, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
+                love.graphics.draw(tin, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
             end 
             
         end
@@ -193,7 +199,7 @@ function section:collide(object, xory)
 
   for y=1, #self.col do
         for x= 1, #self.col[y] do
-            if self.col[y][x] == 1  then
+            if self.col[y][x] == 1 then
             
             	if(xory == 'x')then
             
@@ -205,9 +211,9 @@ function section:collide(object, xory)
 				
 				elseif(xory == 'y')then
 					
-					if(collisionCheckBox(object.drawx, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight, object.drawx, object.drawy))then
+					if(collisionCheckBox(object.drawx, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y - 1, self.blockwidth, self.blockheight, object.drawx, object.drawy))then
 				
-						return collisionCheckBox(object.drawx, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight, object.drawx, object.drawy)
+						return collisionCheckBox(object.drawx, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y - 1, self.blockwidth, self.blockheight, object.drawx, object.drawy)
 					
 					end
 				
@@ -291,6 +297,33 @@ function section:collide(object, xory)
 					end
 				end                
             end
+			
+            --sloped down to up
+            if self.col[y][x] == 7 then
+                   
+                if(xory == 'y')then
+					
+					if(collisionCheckSlopeUp(object.x, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight, object.drawx, object.drawy))then
+				
+						return collisionCheckSlopeUp(object.x, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight, object.drawx, object.drawy)
+						
+					end
+					
+				end
+            end
+			
+            if self.col[y][x] == 8 then
+                   
+                if(xory == 'y')then
+					
+					if(collisionCheckSlopeDown(object.x, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight, object.drawx, object.drawy))then
+				
+						return collisionCheckSlopeDown(object.x, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight, object.drawx, object.drawy)
+						
+					end
+					
+				end
+            end
         end
     end
 end
@@ -298,11 +331,11 @@ end
 function section:onTop(object)
  	for y=1, #self.col do
         for x= 1, #self.col[y] do
-            if self.col[y][x] > 0  then
+            if self.col[y][x] > 0 and self.col[y][x] ~= 7 then
           	 
-                	if(collisionCheckOneWay(object.x, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight, object.drawx, object.drawy))then
+                	if(collisionCheckOneWay(object.x, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y - 1, self.blockwidth, self.blockheight, object.drawx, object.drawy))then
 				
-						return collisionCheckOneWay(object.x, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight,object.drawx, object.drawy)
+						return collisionCheckOneWay(object.x, object.y, object.width, object.height, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y - 1, self.blockwidth, self.blockheight,object.drawx, object.drawy)
 					end
           	end	
         end 

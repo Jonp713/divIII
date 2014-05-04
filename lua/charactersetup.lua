@@ -21,9 +21,3 @@ for i = 1, charCount do
 end
 
 
-
---dialogue conditional example
-chars[1].dialogues[1].isCondition = true
-chars[1].dialogues[1].conditional = function() if(nerds)then return true end end
-
-

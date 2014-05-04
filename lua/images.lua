@@ -13,6 +13,13 @@ whitesquig = love.graphics.newImage("images/doingsprites.png")
 
 whitesquig2 = love.graphics.newImage("images/doingsprites2.png")
 
+slopedup = love.graphics.newImage("images/slopedtile.png")
+
+
+slopeddown = love.graphics.newImage("images/slopedtile2.png")
+
+
+
 
 qrightimg = love.graphics.newImage("images/braidmockup.png")
 

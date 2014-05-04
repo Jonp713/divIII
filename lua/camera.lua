@@ -97,12 +97,12 @@ end
 
 function camera:checkKeys(dt)
 
-	if(love.keyboard.isDown('up'))then
+	if(love.keyboard.isDown('up') and player.lock == false)then
 	
 		self.modifier = self.modifier - math.ceil(300 *dt)
 	
 	end
-	if(love.keyboard.isDown('down'))then
+	if(love.keyboard.isDown('down') and player.lock == false)then
 	
 		self.modifier = self.modifier + math.ceil(300 *dt)
 		
@@ -135,7 +135,7 @@ function camera:checkKeys(dt)
 	
 	end
 	
-	if(editorMode)then
+	if(editorMode and diaeditor.up == false)then
 	
 		if(love.keyboard.isDown('t'))then
 	

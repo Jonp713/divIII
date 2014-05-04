@@ -214,20 +214,19 @@ end
 function player:noKeys(dt)
 
 	self.moving = false
-		self.acc = 0
-  	
-		if(self.speed > 0)then
-			qrightanim:update(dt)
-		end
-		if(self.speed < 0)then
-			qleftanim:update(dt)
-		end
-		if(self.speed == 0)then
-			qleftanim:seek(2)
-			qrightanim:seek(2)
-		end
-end
+	self.acc = 0
 
+	if(self.speed > 0)then
+		qrightanim:update(dt)
+	end
+	if(self.speed < 0)then
+		qleftanim:update(dt)
+	end
+	if(self.speed == 0)then
+		qleftanim:seek(2)
+		qrightanim:seek(2)
+	end
+end
 
 function player:checkMovement()
     
@@ -290,7 +289,6 @@ function player:checkMovement()
     end
 
 end
-
 
 function player:checkX()
 

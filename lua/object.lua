@@ -1,19 +1,20 @@
 objects = {}
 
 
-function objects:new (xIn, yIn)
+function objects:new(xIn, yIn, imgIn)
   o = {
   
   	x = xIn,
 	y = yIn,
-	img = 1,
+	img = imgIn,
   }  
   setmetatable(o, self)
   self.__index = self
   table.insert(objects, o)
   return o
+  
 end
-
+ 
 
 function objects:draw()
 	

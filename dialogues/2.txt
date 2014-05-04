@@ -4,18 +4,22 @@ tree = {
  		number = 1,
 		startSec = 1,
 		endSec = 9999999,
-		isSecret = 0,
+		isSecret = 2,
+		hiddenx1 = 1796.8865210809,
+		hiddenx2 = 2018.4252493741,
+		hiddeny1 = 1430.1900308498,
+		hiddeny2 = 1562.318510056,
 
 
 		secretSeq = {
-			{words = "", time = 5},
+			{words = "Waaaahafaaat", time = 3},
 		},
 		repeatdo = false,
 
 
 		sequence = {
-			{words = "That bomb diffuser is such an idiot, we are so screwed", time = 10},
-			{words = "Couldn't they have sent someone better? We did pay them A LOT", time = 10},
+			{words = "tasdasdasdqweqweqweasdasdasdasdasdasd a s d a s d a a s d a s asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdADSASDASDASDASDASDASDASDASDASDASDASDASDASDd    a dsasdasdasda  s d  a                 sd as   dadsa              dasdhe aasda sdas    d a s d a s d asda sdas dasd asd  as da sd asd a sda sd asmbd asdkjashd aklhjds ahkds aklhjsd ask dasd aslkd askhjld  bomb diffuser is su/ch an idiot, we are so screwed ", time = 11},
+			{words = "Couldn't they have sent someone better? We did pay them A LOT of of boobs walalalalalalalalalalalalalalalalalalaalalalalalalalala", time = 8},
 			{words = "Oh well, I guess I'll just have to accept the fact that I am going to get blown up", time = 6},
 			{words = "What should I do for the last few hours of my existence?", time = 6},
 		}
@@ -25,6 +29,10 @@ tree = {
 		startSec = 70,
 		endSec = 9999999,
 		isSecret = 0,
+		hiddenx1 = 0,
+		hiddenx2 = 0,
+		hiddeny1 = 0,
+		hiddeny2 = 0,
 
 
 		secretSeq = {
@@ -44,6 +52,7 @@ tree = {
 			{words = "Now that I think of it, that wasn't a very special night, it was quite horrifying", time = 5},
 			{words = "But we did share our very first kiss that night. . . .", time = 5},
 			{words = "I miss him. . . ", time = 5},
+			{words = "yeah im like tottal yinto banging chicks yeah braaaaahhhh", time = 3},
 		}
 	},
 	{
@@ -51,6 +60,10 @@ tree = {
 		startSec = 170,
 		endSec = 9999999,
 		isSecret = 0,
+		hiddenx1 = 0,
+		hiddenx2 = 0,
+		hiddeny1 = 0,
+		hiddeny2 = 0,
 
 
 		secretSeq = {
@@ -70,6 +83,10 @@ tree = {
 		startSec = 202,
 		endSec = 9999999,
 		isSecret = 0,
+		hiddenx1 = 0,
+		hiddenx2 = 0,
+		hiddeny1 = 0,
+		hiddeny2 = 0,
 
 
 		secretSeq = {
@@ -87,6 +104,10 @@ tree = {
 		startSec = 244,
 		endSec = 9999999,
 		isSecret = 0,
+		hiddenx1 = 0,
+		hiddenx2 = 0,
+		hiddeny1 = 0,
+		hiddeny2 = 0,
 
 
 		secretSeq = {

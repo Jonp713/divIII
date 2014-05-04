@@ -1,7 +1,7 @@
 function time()
 
 	 --updates the current second, includes weird editor behavior
- 	if(editorMode)then
+ 	if(editorMode or pause)then
  	
 		currentSec = math.floor(modifier)
 		currentMinute = math.floor(modifier/60)
@@ -116,6 +116,104 @@ function collisionCheckBox(x1, y1, length1, height1, x2, y2, length2, height2, d
 
 end
 
+
+
+function collisionCheckSlopeUp(x1, y1, length1, height1, x2, y2, length2, height2, drawx, drawy)
+
+	p1x = x1
+	p1y = y1
+	
+	p2x = x1 + length1
+	p2y = y1 + height1	
+	
+	c1x = x2
+	c1y = y2
+	
+	c2x = x2 + length2
+	c2y = y2 + height2
+	
+	oldp1y = drawy
+	oldp2y = drawy + height1
+	oldp1x = drawx
+	oldp2x = drawx + length1
+	
+	
+	for x = -2, 50 do			
+			if((p2x >= c1x + x and p2x <= c1x + x + 1))then
+				if((p2y >= c2y - x and p2y <= c2y))then	
+								
+					-- going right
+					if(x1 > drawx)then
+			
+						correction = (c2y - x) - p2y
+						
+					end
+					
+					if(x1 < drawx or x1 == drawx)then
+						
+						correction = 0
+						
+					end
+					
+														
+					return true, correction
+					
+				end
+				
+			end
+			
+		end
+				
+end
+
+function collisionCheckSlopeDown(x1, y1, length1, height1, x2, y2, length2, height2, drawx, drawy)
+
+	p1x = x1
+	p1y = y1
+	
+	p2x = x1 + length1
+	p2y = y1 + height1	
+	
+	c1x = x2
+	c1y = y2
+	
+	c2x = x2 + length2
+	c2y = y2 + height2
+	
+	oldp1y = drawy
+	oldp2y = drawy + height1
+	oldp1x = drawx
+	oldp2x = drawx + length1
+	
+	
+	for x = -10, 42 do			
+			if(p1x >= c1x + x and p1x <= c1x + x + 1)then
+				if(p2y >= c1y + x and p2y <= c2y)then
+						
+					if(x1 < drawx)then
+						
+						correction = (c2y + (x - 40)) - p2y						
+						
+					end
+					
+					-- going right
+					if(x1 > drawx or x1 == drawx)then
+			
+						correction = 0
+						
+					end					
+														
+					return true, correction
+					
+				end
+				
+			end
+			
+		end
+				
+end
+
+
 function collisionCheck(x1, y1, length1, height1, x2, y2, length2, height2)
 
 	p1x = x1
@@ -130,8 +228,8 @@ function collisionCheck(x1, y1, length1, height1, x2, y2, length2, height2)
 	c2x = x2 + length2
 	c2y = y2 + height2
 	
-	if((p1x > c1x and p1x < c2x) or (p2x > c1x and p2x < c2x))then
-		if((p1y > c1y and p1y < c2y) or (p2y > c1y and p2y < c2y))then			
+	if((p1x >= c1x and p1x <= c2x) or (p2x >= c1x and p2x <= c2x))then
+		if((p1y >= c1y and p1y <= c2y) or (p2y >= c1y and p2y <= c2y))then			
 			
 			return true
 			
@@ -158,12 +256,17 @@ function collisionCheckOneWay(x1, y1, length1, height1, x2, y2, length2, height2
 	oldp1x = drawx
 	oldp2x = drawx + length1	
 	
+	
 	if((p1x >= c1x and p1x <= c2x) or (p2x >= c1x and p2x <= c2x))then
 	-- if the previous location was above the collide y location
 		if(oldp2y - 1 < c1y)then
 				
 			if((p1y >= c1y and p1y <= c2y) or (p2y >= c1y and p2y <= c2y))then
+								
+				
 				return true, c1y - oldp2y
+				
+				
 
 			end
 		end
@@ -305,21 +408,8 @@ function moveTowards(leader, follower, slope, speed, dt)
 end
 
 function otherKeyChecks()
-	if (love.keyboard.isDown('g') and gpressable) then
-		gpressable = false
-		
-		if(editorMode)then
-		
 
-		else
-		
-
-		
-		end
-	end
-		
-
-	if (love.keyboard.isDown('f') and fpressable) then
+	if (love.keyboard.isDown('f') and fpressable and pause == false and diaeditor.up == false) then
 		fpressable = false
 		
 		
@@ -440,6 +530,57 @@ function otherKeyChecks()
 	if(love.keyboard.isDown('.') == false)then
 	
 		periodpressable = true
+	
+	end
+	if(love.keyboard.isDown(';') == false)then
+	
+		colonpressable = true
+	
+	end
+
+	
+end
+
+
+function love.textinput(t)
+	
+	if(diaeditor.up and t ~= ';' and t ~= ':')then
+	
+		diaeditor.modifier = 0
+	
+		for line in diaeditor.text:gmatch("\n") do 
+
+			diaeditor.modifier = diaeditor.modifier + diaeditor.rowlength
+
+		end	
+	
+		if(#diaeditor.text + diaeditor.modifier < (diaeditor.rowlength * diaeditor.rows))then
+   
+	   	 	diaeditor.text = diaeditor.text:sub(1, diaeditor.selected) .. t .. diaeditor.text:sub(diaeditor.selected + 1, #diaeditor.text)		
+		
+			diaeditor.selected = diaeditor.selected + 1
+	
+		end
+	
+	end
+	
+	if(notes.up)then
+	
+		notes.modifier = 0
+	
+		for line in notes.text:gmatch("\n") do 
+
+			notes.modifier = notes.modifier + notes.rowlength
+
+		end	
+	
+		if(notes.up and #notes.text + notes.modifier < (notes.rowlength * notes.rows))then
+   
+	   	 	notes.text = notes.text:sub(1, notes.selected) .. t .. notes.text:sub(notes.selected + 1, #notes.text)		
+		
+			notes.selected = notes.selected + 1
+	
+		end
 	
 	end
 end

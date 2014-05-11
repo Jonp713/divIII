@@ -4,11 +4,11 @@ tree = {
  		number = 1,
 		startSec = 1,
 		endSec = 9999999,
-		isSecret = 2,
-		hiddenx1 = 1796.8865210809,
-		hiddenx2 = 2018.4252493741,
-		hiddeny1 = 1430.1900308498,
-		hiddeny2 = 1562.318510056,
+		isSecret = 0,
+		hiddenx1 = 1824.2653968831,
+		hiddenx2 = 2073.6206471144,
+		hiddeny1 = 1390.4521423667,
+		hiddeny2 = 1576.2267710251,
 
 
 		secretSeq = {
@@ -18,7 +18,7 @@ tree = {
 
 
 		sequence = {
-			{words = "tasdasdasdqweqweqweasdasdasdasdasdasd a s d a s d a a s d a s asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdADSASDASDASDASDASDASDASDASDASDASDASDASDASDd    a dsasdasdasda  s d  a                 sd as   dadsa              dasdhe aasda sdas    d a s d a s d asda sdas dasd asd  as da sd asd a sda sd asmbd asdkjashd aklhjds ahkds aklhjsd ask dasd aslkd askhjld  bomb diffuser is su/ch an idiot, we are so screwed ", time = 11},
+			{words = "tasdasdasdasd a s d a s d a a sSDASDASDASDASa dsasdasdasda  s d  a                 sd as   dadsa              dasdhe aasda sdas    d a s d a s d asda sdas dasd asd  as da sd asd a sda sd asmbd asdkjashd aklhjds ahkds aklhjsd ask dasd aslkd askhjld  bomb diffuser is su/ch an idiot, we are so screwed ", time = 12},
 			{words = "Couldn't they have sent someone better? We did pay them A LOT of of boobs walalalalalalalalalalalalalalalalalalaalalalalalalalala", time = 8},
 			{words = "Oh well, I guess I'll just have to accept the fact that I am going to get blown up", time = 6},
 			{words = "What should I do for the last few hours of my existence?", time = 6},

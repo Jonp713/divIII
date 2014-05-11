@@ -22,6 +22,9 @@ function dialogue:new (secIn, endSecIn, sequenceIn, objectIn, repeatIn, secretTy
 	charstartx = 0,
 	charstarty = 0,
 	
+	MAXwaitTime = 30,
+	waitTime = 0,
+	
 	targetObject = objectIn,
 	
 	finished = false,
@@ -32,6 +35,8 @@ function dialogue:new (secIn, endSecIn, sequenceIn, objectIn, repeatIn, secretTy
 	repeatdo = repeatIn,
 	secretType = secretTypeIn,
   	secretSeq = secretSeqIn,
+	
+	isWhisper = false,
 	
 	safe = true,
 	
@@ -169,10 +174,10 @@ function dialogue:checkSafe()
 
 
 	end
-	--moving not safe
+	--moving safe
 	if(self.secretType == 4)then
 		
-		if(collisionCheck(player.x, player.y, player.width, player.height, self.hiddenx1, self.hiddeny1, self.hiddenx2 - self.hiddenx1, self.hiddeny2 - self.hiddeny1))then
+		if(collisionCheck(player.x, player.y, player.width, player.height, self.targetObject.x + self.hiddenx1, self.targetObject.y + self.hiddeny1, (self.hiddenx2 - self.hiddenx1), (self.hiddeny2 - self.hiddeny1)))then
 						
 			self.safe = true
 			
@@ -216,7 +221,43 @@ function dialogue:newTalk(dia, stateFor)
 	
 end
 
-function dialogue:talk (dia)
+function dialogue:whisper(dia, stateFor)
+	
+	love.graphics.setFont(fontsmaller)
+	
+	l, j = self:findLargest(stateFor)
+	
+	if(j ~= 0)then
+	
+		love.graphics.setColor(255,255,255, 200)
+	
+		love.graphics.rectangle('fill', (self.targetObject.x - (self.sortArray[stateFor].placements[l].length * 3)) + (self.targetObject.width/2) - 20, self.targetObject.y - (#self.sortArray[stateFor].placements * 15) - 30, (self.sortArray[stateFor].placements[l].length * 7.4) + 20, (#self.sortArray[stateFor].placements * 15) + 20)
+	
+		love.graphics.setColor(0,0,0, 255)		
+	
+		for i = #self.sortArray[stateFor].placements, 1, -1 do
+		
+			if(i == 1)then
+			
+				love.graphics.print(dia:sub(0, self.sortArray[stateFor].placements[i].val - 1), (self.targetObject.x - (self.sortArray[stateFor].placements[i].length * 3)) + (self.targetObject.width/2), self.targetObject.y + ((i - #self.sortArray[stateFor].placements) * 15) - 35)
+					
+			else
+		
+				love.graphics.print(dia:sub(self.sortArray[stateFor].placements[i-1].val, self.sortArray[stateFor].placements[i].val - 1), (self.targetObject.x - (self.sortArray[stateFor].placements[i].length * 3)) + (self.targetObject.width/2), self.targetObject.y + ((i - #self.sortArray[stateFor].placements) * 15) - 35)
+		
+			end
+		
+		end
+	
+	end
+	
+	love.graphics.setFont(font2)
+	
+	
+end
+
+
+function dialogue:unsafeTalk (dia)
 
 	count = #dia
 		
@@ -288,7 +329,6 @@ function dialogue:talk (dia)
 
 end
 
-
 function dialogue:trigger ()
 
 	self:checkSafe()
@@ -300,8 +340,8 @@ function dialogue:trigger ()
 			self:newTalk(self.sequence[self.state].words, self.state)
 			
 		else
-			
-			self:talk(self.secretSeq[1].words)
+							
+			self:unsafeTalk(self.secretSeq[1].words)
 			
 		end
 		
@@ -321,14 +361,50 @@ function dialogue:trigger ()
 		
 		if(editorMode or pause)then
 			if(backward)then
-		
-				self.workTime = self.workTime - alldt		
-		
-			elseif(forward)then
 				
-				self.workTime = self.workTime + alldt		
-
+				if(self.safe)then
+		
+					self.workTime = self.workTime - alldt		
+		
+				elseif(self.safe == false)then
+				
+					if(self.isWhisper)then
+					
+						self.workTime = self.workTime - alldt		
+					
+					end
+				
+					self.waitTime = self.waitTime - alldt	
+				
+				end
+				
 			end
+				
+			if(forward)then
+				
+				if(self.safe)then
+				
+					self.workTime = self.workTime + alldt		
+				
+				elseif(self.safe == false)then
+								
+					if(self.isWhisper)then
+					
+						self.workTime = self.workTime + alldt		
+					
+					end
+				
+					self.waitTime = self.waitTime + alldt	
+				
+				end
+			end
+			
+			if(self.waitTime > self.MAXwaitTime)then
+				
+				self.finished = true
+				
+			end	
+		
 		else
 			--prevents dialogue from continuing if the player is not safe
 			if(self.safe)then
@@ -338,11 +414,25 @@ function dialogue:trigger ()
 			
 			else
 				--possible changes for the unsafe text or could change unsafe text talk to a unsafetalk that changes stuff isntead....	
-			
+				if(self.isWhisper)then
+					
+					self.workTime = self.workTime + alldt		
+					
+				end
+
+				self.waitTime = self.waitTime + alldt	
+				
+				if(self.waitTime > self.MAXwaitTime)then
+					
+					self.finished = true
+					
+				end	
+		
 			end
 
 		end
 		
+		--reverse for editormode
 		if(self.workTime < self.startTime and (self.state - 1) ~= 0 and backward)then
 			self.state = self.state - 1
 			self.startTime = self.startTime - self.sequence[self.state].time 
@@ -363,8 +453,15 @@ function dialogue:trigger ()
 	
 	if(editorMode and editor.hiddenDrag == false and self.finished == false)then
 		
+		if(self.secretType == 4)then
+	        love.graphics.setColor(0, 0, 150, 50)
+	        love.graphics.rectangle("fill", self.targetObject.x + self.hiddenx1, self.targetObject.y + self.hiddeny1,  (self.hiddenx2 - self.hiddenx1), (self.hiddeny2 - self.hiddeny1))
+	        love.graphics.setColor(255, 255, 255)
+			
+		end
+		
 		if(self.secretType == 3)then
-	        love.graphics.setColor(150, 0, 150, 50)
+	        love.graphics.setColor(150, 0, 0, 50)
 	        love.graphics.rectangle("fill", self.targetObject.x + self.hiddenx1, self.targetObject.y + self.hiddeny1,  (self.hiddenx2 - self.hiddenx1), (self.hiddeny2 - self.hiddeny1))
 	        love.graphics.setColor(255, 255, 255)
 			

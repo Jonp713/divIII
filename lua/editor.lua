@@ -59,6 +59,7 @@ editor = {
 	hiddenDragx = 0,
 	hiddenDragy = 0,
 	
+	count = 0,
 	
 	secretEditing = false,
 	diaEditing = false,
@@ -164,7 +165,29 @@ function editor:saveEvent(number)
 			
 				strg = strg .. "\t\t\t{"
 			
-				strg = strg .. "x = "..chars[number].events[i].sequence[j].x..", y = "..chars[number].events[i].sequence[j].y..", speed = "..chars[number].events[i].sequence[j].speed..", door = false"---..chars[number].events[i].sequence[j].door
+				strg = strg .. "x = "..chars[number].events[i].sequence[j].x..", y = "..chars[number].events[i].sequence[j].y..", speed = "..chars[number].events[i].sequence[j].speed
+				
+				if(chars[number].events[i].sequence[j].door)then
+		
+					strg = strg ..", door = true"---..chars[number].events[i].sequence[j].door
+
+		
+				else
+		
+					strg = strg ..", door = false"---..chars[number].events[i].sequence[j].door
+
+				end
+				
+				--[[
+				
+				
+				strg = strg ..", time = ..chars[number].events[i].sequence[j].door
+				
+				
+				]]
+								
+				strg = strg ..", time = 0"---..chars[number].events[i].sequence[j].door
+		
 				
 				strg = strg ..  "},\n"
 	
@@ -366,27 +389,47 @@ function editor:checkKeys(dt)
 		if(zpressable and objects[self.objectSelect].img > 1)then
 			zpressable = false
 			
-			self.Print = 'ObjectSelect IMG -'
+			if(love.keyboard.isDown('rshift') and objects[self.objectSelect].img > 5)then
+				
+				self.Print = 'ObjectSelect IMG - 5'
 			  
 				
-			objects[self.objectSelect].img = objects[self.objectSelect].img - 1
+				objects[self.objectSelect].img = objects[self.objectSelect].img - 5
+				
+			else
+			
+				self.Print = 'ObjectSelect IMG -'
+			  
+				
+				objects[self.objectSelect].img = objects[self.objectSelect].img - 1
+			
+			end
 		
 			
 		end
 		
 	end
 	--change object IMG up
-	if(love.keyboard.isDown('x') and self.objectSelect > 0 and diaeditor.up == false)then
-		
-		self.Print = 'ObjectSelect IMG +'
-		  
+	if(love.keyboard.isDown('x') and self.objectSelect > 0 and diaeditor.up == false)then	  
 
 		if(xpressable and objects[self.objectSelect].img < #images)then
 			xpressable = false
+			
+			if(love.keyboard.isDown('lshift') and objects[self.objectSelect].img < #images - 5)then
 
+				self.Print = 'ObjectSelect IMG + 5'
 			
 			
-			objects[self.objectSelect].img = objects[self.objectSelect].img + 1
+				objects[self.objectSelect].img = objects[self.objectSelect].img + 5
+			
+			else
+				
+				self.Print = 'ObjectSelect IMG +'
+			
+			
+				objects[self.objectSelect].img = objects[self.objectSelect].img + 1
+			
+			end
 		
 			
 		end
@@ -941,7 +984,7 @@ function editor:checkKeys(dt)
 						
 						x,y = camera:getPos()
 						
-						if(chars[i].dialogues[j].secretType == 3)then
+						if(chars[i].dialogues[j].secretType == 3 or chars[i].dialogues[j].secretType == 4)then
 							
 							chars[i].dialogues[j].hiddenx1 = x - chars[i].x
 							chars[i].dialogues[j].hiddeny1 = y - chars[i].y
@@ -993,7 +1036,7 @@ function editor:checkKeys(dt)
 						
 						x,y = camera:getPos()
 						
-						if(chars[i].dialogues[j].secretType == 3)then
+						if(chars[i].dialogues[j].secretType == 3 or chars[i].dialogues[j].secretType == 4)then
 							
 							chars[i].dialogues[j].hiddenx2 = x - chars[i].x
 							chars[i].dialogues[j].hiddeny2 = y - chars[i].y
@@ -1076,6 +1119,7 @@ function editor:checkKeys(dt)
 								self.Print = 'Dialogue - Secret - Not Safe Here'
 						
 								chars[i].dialogues[j].secretType = 2
+								chars[i].dialogues[j].safe = true
 														
 								break;
 							
@@ -1086,15 +1130,28 @@ function editor:checkKeys(dt)
 								self.Print = 'Dialogue - Secret - Safe Here'
 						
 								chars[i].dialogues[j].secretType = 1
+								chars[i].dialogues[j].safe = true
 	
 								break;
 						
 							end
 							if(chars[i].dialogues[j].secretType == 3)then
 							
+								self.Print = 'Dialogue - Secret - Moving - Safe Here'
+						
+								chars[i].dialogues[j].secretType = 4
+								chars[i].dialogues[j].safe = true
+														
+								break;
+							
+							end
+							if(chars[i].dialogues[j].secretType == 4)then
+							
 								self.Print = 'Dialogue - Not Secret'
 						
 								chars[i].dialogues[j].secretType = 0
+								chars[i].dialogues[j].safe = true
+								
 														
 								break;
 							
@@ -1333,7 +1390,7 @@ function editor:checkKeys(dt)
 	end
 	
 	--add word point to dialogue
-	if(love.keyboard.isDown('='))then
+	if(love.keyboard.isDown('=') and diaeditor.up)then
 		
 		if(diaeditor.up and equalpressable)then
 			
@@ -1484,8 +1541,213 @@ function editor:checkKeys(dt)
 		end
 	
 	end
+	
+	--toggle door for events
+	if(love.keyboard.isDown('3') and threepressable)then
+		threepressable = false
+
+		for i = 1, #chars do
+				
+			if(chars[i].selected)then
+							
+				for j = 1, #chars[i].events do
+								
+					if(chars[i].events[j].started and chars[i].events[j].finished == false)then
+														
+						if(chars[i].events[j].sequence[chars[i].events[j].state].door == false)then
+						
+							editor.Print = "Event - door = true"
+				
+							chars[i].events[j].sequence[chars[i].events[j].state].door = true
+						else
+						
+							editor.Print = "Event - door = false"
+						
+							chars[i].events[j].sequence[chars[i].events[j].state].door = false
 
 
+						end
+					end
+			
+				end
+			
+			end
+	
+		end
+
+	end
+	
+	--toggle repeat for events
+	if(love.keyboard.isDown('4') and fourpressable)then
+		fourpressable = false
+
+		for i = 1, #chars do
+				
+			if(chars[i].selected)then
+							
+				for j = 1, #chars[i].events do
+								
+					if(chars[i].events[j].started and chars[i].events[j].finished == false)then
+														
+						if(chars[i].events[j].repeatdo == true)then
+						
+							editor.Print = "Event - repeat = false"
+				
+							chars[i].events[j].repeatdo = false							
+							
+						else
+							
+							editor.Print = "Event - repeat = true"
+				
+							chars[i].events[j].repeatdo = true						
+
+						end
+					end
+			
+				end
+			
+			end
+	
+		end
+
+	end
+	
+	--lower timed event by one
+	if(love.keyboard.isDown('-') and love.keyboard.isDown('rshift') and dashpressable)then
+		dashpressable = false
+
+		for i = 1, #chars do
+				
+			if(chars[i].selected)then
+							
+				for j = 1, #chars[i].events do
+								
+					if(chars[i].events[j].started and chars[i].events[j].finished == false)then				
+						
+						chars[i].events[j].endTime = chars[i].events[j].endTime - 1
+								
+						
+						chars[i].events[j].sequence[chars[i].events[j].state].time = chars[i].events[j].sequence[chars[i].events[j].state].time - 1													
+																				
+						editor.Print = "Event - time = "..chars[i].events[j].sequence[chars[i].events[j].state].time
+					
+					end
+			
+				end
+			
+			end
+	
+		end
+
+	end
+	
+	--raise timed event by one
+	if(love.keyboard.isDown('=') and love.keyboard.isDown('rshift') and equalpressable)then
+		equalpressable = false
+
+		for i = 1, #chars do
+				
+			if(chars[i].selected)then
+							
+				for j = 1, #chars[i].events do
+								
+					if(chars[i].events[j].started and chars[i].events[j].finished == false)then
+						
+						if(chars[i].events[j].sequence[chars[i].events[j].state].time == 0)then
+						
+							chars[i].events[j].startTime = math.floor((love.timer.getTime() - gamestartSec) + modifier)
+							
+							chars[i].events[j].workTime = chars[i].events[j].startTime
+			
+							chars[i].events[j].endTime = chars[i].events[j].startTime + 1
+
+						else
+							chars[i].events[j].endTime = chars[i].events[j].endTime + 1
+							 
+						end
+						
+						chars[i].events[j].sequence[chars[i].events[j].state].time = chars[i].events[j].sequence[chars[i].events[j].state].time + 1
+																				
+						editor.Print = "Event - time = "..chars[i].events[j].sequence[chars[i].events[j].state].time
+					
+					end
+			
+				end
+			
+			end
+	
+		end
+
+	end
+	
+	
+	--lower event point speed
+	if(love.keyboard.isDown('-') and dashpressable)then
+		dashpressable = false
+
+		for i = 1, #chars do
+				
+			if(chars[i].selected)then
+							
+				for j = 1, #chars[i].events do
+								
+					if(chars[i].events[j].started and chars[i].events[j].finished == false)then
+						
+						chars[i].events[j].sequence[chars[i].events[j].state].speed = chars[i].events[j].sequence[chars[i].events[j].state].speed - 1
+																				
+						editor.Print = "Event - speed = "..chars[i].events[j].sequence[chars[i].events[j].state].speed
+					
+					end
+			
+				end
+			
+			end
+	
+		end
+
+	end
+	
+	--raise event point speed
+	if(love.keyboard.isDown('=') and equalpressable)then
+		equalpressable = false
+
+		for i = 1, #chars do
+				
+			if(chars[i].selected)then
+							
+				for j = 1, #chars[i].events do
+								
+					if(chars[i].events[j].started and chars[i].events[j].finished == false)then
+						
+						chars[i].events[j].sequence[chars[i].events[j].state].speed = chars[i].events[j].sequence[chars[i].events[j].state].speed + 1
+																				
+						editor.Print = "Event - speed = "..chars[i].events[j].sequence[chars[i].events[j].state].speed
+					
+					end
+			
+				end
+			
+			end
+	
+		end
+
+	end
+	
+	
+	if(love.keyboard.isDown('0'))then
+		
+		
+		objects[editor.objectSelect].x = xIn
+		objects[editor.objectSelect].y = yIn
+		
+		
+		
+	end
+	
+
+	
+
+	
 end
 
 
@@ -1500,9 +1762,6 @@ function editor:selecting()
 			
 			editor.boxxdrag = x
 			editor.boxydrag = y
-			
-			toprint = x
-			toprint2 = y
 			
 		end
 		

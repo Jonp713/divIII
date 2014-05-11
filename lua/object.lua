@@ -1,12 +1,17 @@
 objects = {}
 
-
 function objects:new(xIn, yIn, imgIn)
   o = {
   
   	x = xIn,
 	y = yIn,
 	img = imgIn,
+	
+	isFore = false,
+	
+	isMusic = false,
+	isInteraction = false,
+	
   }  
   setmetatable(o, self)
   self.__index = self
@@ -14,7 +19,6 @@ function objects:new(xIn, yIn, imgIn)
   return o
   
 end
- 
 
 function objects:draw()
 	
@@ -22,7 +26,7 @@ function objects:draw()
 	
         love.graphics.draw(images[objects[i].img], objects[i].x, objects[i].y)
 		
-		if(editor.objectSelect == i)then
+		if(editor.objectSelect == i and editorMode)then
 	
 			love.graphics.setColor(160, 160, 160, 75)
 			love.graphics.rectangle("fill", objects[i].x, objects[i].y,  images[objects[i].img]:getWidth(),  images[objects[i].img]:getHeight())

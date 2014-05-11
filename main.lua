@@ -4,10 +4,9 @@ function love.load(args)
 	zpressable, qpressable, wpressable, apressabe, spressable, dpressable, ppressable, opressable = true
 	mpressable, npressable, bpressable, fpressable, gpressable, xpressable, cpressable, vpressable = true
 	
-	equalpressable, commapressable, colonpressable, periodpressable, enterpressable, backspacepressable, leftpressable, rightpressable, uppressable, downpressable = true
+	equalpressable, commapressable, colonpressable, periodpressable, enterpressable, backspacepressable, leftpressable, rightpressable, uppressable, downpressable, dashpressable = true
 	
-	onepressable, twopressable = true
-	
+	onepressable, twopressable, threepressable, ninepressable, fourpressable = true
 	
 	leftclick = true
 	
@@ -77,6 +76,8 @@ function love.load(args)
 	require('lua/conditional')
 	--doors
 	require('lua/door')
+	--sounds
+	require('lua/sounds')
 	--cutscenes
 	require("lua/cinematic")
 	--load maps, create sections
@@ -100,12 +101,15 @@ function love.load(args)
 	
 	time()
 	
+	notes:load()
+	
 	chars:set(2)
 	chars:diaChop()
 		
 	defaultfont = love.graphics.newFont('fonts/typewriter.ttf', 20 )
 	font2 = love.graphics.newFont(12) -- the number denotes the font size
 	thinfont = love.graphics.newFont('fonts/thin.ttf', 50 )
+	fontsmaller = love.graphics.newFont(7) -- the number denotes the font size
 
 	love.graphics.setFont(font2)
 		

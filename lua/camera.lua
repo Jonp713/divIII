@@ -197,8 +197,6 @@ function camera:drawBackground()
 end
 
 function camera:displayMath()
-	
-   
 	 
 	if(self.inextension)then
 		

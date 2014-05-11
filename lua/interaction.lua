@@ -141,7 +141,6 @@ function interaction:text (textIn)
 	
 	love.graphics.setColor(0, 0, 0, 255)
 	
-	
 	if(count > 65)then
 	
 		love.graphics.print(textIn:sub(0, count2), 450, 345)

@@ -1,0 +1,3 @@
+notesend = "aasdasd]]]][[];la;s;;;;;;;!#^&*(#%$FD CLARA IS BROWN!!! asdaaa123%$#!$%(*^&^aaaa yes manSSS"
+
+return notesend

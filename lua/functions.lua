@@ -537,6 +537,54 @@ function otherKeyChecks()
 		colonpressable = true
 	
 	end
+	if(love.keyboard.isDown('3') == false)then
+	
+		threepressable = true
+	
+	end
+	if(love.keyboard.isDown('4') == false)then
+	
+		fourpressable = true
+	
+	end
+	if(love.keyboard.isDown('-') == false)then
+	
+		dashpressable = true
+	
+	end
+	if(love.keyboard.isDown('=') == false)then
+	
+		equalpressable = true
+	
+	end
+	
+	
+	if(love.keyboard.isDown('9'))then
+		
+		if(ninepressable)then
+		
+			ninepressable = false
+		
+			boop:play()
+	
+		end
+		
+	else
+		
+		ninepressable = true
+		
+	end
+	
+	if(editorMode == false)then
+		
+		if(love.keyboard.isDown('s') and love.keyboard.isDown('lshift'))then
+			
+			notes:save()
+			
+		end
+		
+		
+	end
 
 	
 end
@@ -544,7 +592,7 @@ end
 
 function love.textinput(t)
 	
-	if(diaeditor.up and t ~= ';' and t ~= ':')then
+	if(diaeditor.up and t ~= ';' and t ~= ':' and t ~= "'" and t ~= '"' and t ~= '\\')then
 	
 		diaeditor.modifier = 0
 	
@@ -564,7 +612,7 @@ function love.textinput(t)
 	
 	end
 	
-	if(notes.up)then
+	if(notes.up and t ~= "'" and t ~= '"' and t ~= '\\')then
 	
 		notes.modifier = 0
 	

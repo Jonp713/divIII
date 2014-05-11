@@ -7,6 +7,8 @@ notes.rowlength = 65
 notes.rows = 14
 notes.modifier = 0
 notes.backcount = 0
+notes.leftcount = 0
+notes.rightcount = 0
 
 function notes:draw()
 
@@ -49,6 +51,14 @@ function notes:checkKeys()
 	
 	if(love.keyboard.isDown('right'))then
 		
+		notes.rightcount = notes.rightcount + 1
+		
+		if(notes.rightcount > 5)then
+		
+			rightpressable = true
+		
+		end
+		
 		if(rightpressable)then
 			rightpressable = false
 		
@@ -62,10 +72,21 @@ function notes:checkKeys()
 		
 	else
 		
+		notes.rightcount = 0
+		
+		
 		rightpressable = true
 		
 	end
 	if(love.keyboard.isDown('left'))then
+		
+		notes.leftcount = notes.leftcount + 1
+		
+		if(notes.leftcount > 5)then
+			
+			leftpressable = true
+			
+		end
 		
 		if(leftpressable)then
 			leftpressable = false
@@ -80,6 +101,8 @@ function notes:checkKeys()
 			
 
 	else
+		
+		notes.leftcount = 0
 		
 		leftpressable = true
 		
@@ -216,4 +239,26 @@ function notes:checkKeys()
 	
 	end
 
+end
+
+
+function notes:save()
+	
+	strg = 'notesend = "'..notes.text..'"\n\nreturn notesend'
+	
+	local f,err = io.open("/Users/Bah-Ru-Daga/Desktop/Game/notes.txt","w")
+	if not f then return print(err) end
+	f:write(strg)
+	f:close()
+	
+	
+end
+
+function notes:load()
+	
+	
+	-- need to do this io shit and read from it and save it here instead of the love stuff.
+	chunk = love.filesystem.load( "notes.txt" )
+	notes.text = chunk()
+		
 end

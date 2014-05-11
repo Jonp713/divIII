@@ -9,16 +9,17 @@ noteblock = love.graphics.newImage("images/noteblock.png")
 noteblock2 = love.graphics.newImage("images/noteblock2.png")
 bomb = love.graphics.newImage("images/bomb.png")
 
+
+--blocks
 whitesquig = love.graphics.newImage("images/doingsprites.png")
-
 whitesquig2 = love.graphics.newImage("images/doingsprites2.png")
-
 slopedup = love.graphics.newImage("images/slopedtile.png")
-
-
 slopeddown = love.graphics.newImage("images/slopedtile2.png")
+grass = love.graphics.newImage("images/grassblock.png")
 
 
+--objects
+tree = love.graphics.newImage("images/tree.png")
 
 
 qrightimg = love.graphics.newImage("images/braidmockup.png")
@@ -33,4 +34,6 @@ qleftanim:setMode("bounce")
 
 
 --objectimages
-images = {stone, wood, tin, red}
+images = {stone, tree, tin, red}
+
+blocks = {whitesquig, whitesquig2, slopedup, slopeddown, grass}

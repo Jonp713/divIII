@@ -73,6 +73,10 @@ function section:displayGrid ()
 
     for y=1, #self.grid do
         for x= 1, #self.grid[y] do
+			
+            love.graphics.setColor(0, 0, 0)
+            love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
+            love.graphics.setColor(255, 255, 255)
             if self.grid[y][x] == -1 then
             
             	love.graphics.setColor(0, 0, 0, 255)
@@ -87,92 +91,20 @@ function section:displayGrid ()
 				love.graphics.setNewFont(12)
 
             end
-        	if self.grid[y][x] == 0 then
-              love.graphics.setColor(0, 0, 0)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-
-			end
-            if self.grid[y][x] == 1 then
-
+	
   
-                love.graphics.draw(whitesquig2, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
+			
+			if(blocks[self.grid[y][x]] ~= nil)then
 
-
-
-            end   
-        	if self.grid[y][x] == 2 then
-            
-                love.graphics.draw(whitesquig, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-
-            end
-            if self.grid[y][x] == 3 then
-				
-                love.graphics.setColor(0, 0, 0)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            
-                love.graphics.draw(slopedup, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-
-            end
-            if self.grid[y][x] == 4 then
-            
-                love.graphics.setColor(0, 0, 0)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            
-                love.graphics.draw(slopeddown, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-            end
-            if self.grid[y][x] == 5 then
-            
-                love.graphics.setColor(70, 40, 40)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end
-            if self.grid[y][x] == 6 then
-            
-                love.graphics.setColor(225, 140, 0)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end
-            if self.grid[y][x] == 7 then
-            
-                love.graphics.setColor(245, 205, 0)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end
-            if self.grid[y][x] == 8 then
-            
-                love.graphics.setColor(148, 0, 211)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end 
-            if self.grid[y][x] == 9 then
-                love.graphics.setColor(32, 178, 170)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end 
-            if self.grid[y][x] == 10 then
-                love.graphics.setColor(180, 180, 180)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end 
-            if self.grid[y][x] == 11 then
-                love.graphics.setColor(50, 50, 50)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end 
-            if self.grid[y][x] == 12 then
-                love.graphics.draw(wood, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-            end 
-            if self.grid[y][x] == 13 then
-                love.graphics.draw(stone, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-            end 
-            if self.grid[y][x] == 14 then
-                love.graphics.draw(tin, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-            end 
-            
-        end
+			
+           	 	   love.graphics.draw(blocks[self.grid[y][x]], ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
+			
+			else
+			
+			
+			
+       	 	end
+		end
     end
     
     

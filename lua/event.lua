@@ -7,11 +7,17 @@ function event:new (secIn, endSecIn, sequenceIn, objectIn, repeatIn)
 	  	
   	state = 1,
 	started = false,
+	restarted = false,
 	
 	targetObject = objectIn,
-	
+
 	repeatdo = repeatIn,
 	finished = false,
+	
+	startTime = 0,
+	endTime = 0,
+	workingTime = 0,
+	workTime = 0,
 	
 	isCondition = false,
 	condition = function() return true end,
@@ -49,106 +55,188 @@ function event:trigger()
 
 	if(self.state <= #self.sequence and self.finished == false)then
 		
-		self.started = true
+		if(self.sequence[self.state].time > 0)then
+			
+			if(self.started == false)then
 		
-		if(self.sequence[self.state].door)then
+				if(self.restarted == false)then
 			
+					self.startTime = math.floor((love.timer.getTime() - gamestartSec) + modifier)
+					self.workTime = self.startTime
+
+				end
+			
+				self.endTime = self.startTime + self.sequence[self.state].time
+				self.started = true
+				self.restarted = false
+			end
+		
+			if(editorMode or pause)then
+				if(backward)then
+						
+					self.workTime = self.workTime - alldt		
+				
+				end
+				
+				if(forward)then
+					
+					self.workTime = self.workTime + alldt		
+					
+				end
+				
+			else
+				
+				self.workTime = self.workTime + alldt		
 	
-			self.targetObject.x = self.sequence[self.state].x - (self.targetObject.width/2)
-			self.targetObject.y = self.sequence[self.state].y - self.targetObject.height
+			end
 			
-			self.state = self.state + 1
+			--reverse for editormode
+			if(self.workTime < self.startTime and (self.state - 1) ~= 0 and backward)then
+				self.state = self.state - 1
+				self.startTime = 0
+				self.started = false
+				self.restarted = true
+				
+			end
+			if(self.workTime >= self.endTime)then
+				self.started = false
+				self.state = self.state + 1
+				
+				toprint = toprint + 1
+				
+			end
 			
 		else
 			
-			if(self.resetslope)then
-	
-				if(backward and editorMode and self.state > 1)then
+			self.started = true
+			
+			if(self.sequence[self.state].door)then
+			
+				if(editorMode)then
+				
+					if(editor.count == 20)then
+					
+						if(backward or forward)then
+			
+							editor.count = 0
+				
+							self.targetObject.x = self.sequence[self.state].x - (self.targetObject.width/2)
+							self.targetObject.y = self.sequence[self.state].y - self.targetObject.height
 
-					self.resetslope = false
-					deltax = (self.targetObject.x + (self.targetObject.width/2)) - self.sequence[self.state - 1].x
-					deltay = (self.targetObject.y + self.targetObject.height) - self.sequence[self.state - 1].y
+							self.state = self.state + 1
+					
+						end
+			
+					else
+					
+						if(backward or forward)then
+				
+							editor.count = editor.count + 1
+					
+						end
+					
+					end
 			
 				else
-		
-					self.resetslope = false
-					deltax = (self.targetObject.x + (self.targetObject.width/2)) - self.sequence[self.state].x
-					deltay = (self.targetObject.y + self.targetObject.height) - self.sequence[self.state].y
-		
-				end
-		
-				self.slope = deltax/deltay
+				
+					self.targetObject.x = self.sequence[self.state].x - (self.targetObject.width/2)
+					self.targetObject.y = self.sequence[self.state].y - self.targetObject.height
 
-				if(deltay == 0)then
-			
-					self.slope = deltax/100
-			
+					self.state = self.state + 1
+				
 				end
 		
-				if(self.slope < 0)then
-		
-					self.slope = self.slope * - 1
+			else
 			
-				end	
-		
-				self.xspeedsend = self.sequence[self.state].speed/self.slope
-		
-				self.yspeedsend = self.xspeedsend
+				if(self.resetslope)then
+	
+					if(backward and editorMode and self.state > 1)then
+
+						self.resetslope = false
+						deltax = (self.targetObject.x + (self.targetObject.width/2)) - self.sequence[self.state - 1].x
+						deltay = (self.targetObject.y + self.targetObject.height) - self.sequence[self.state - 1].y
 			
-			end
-	
-			--weird editor behavior
-			if(editorMode or pause)then
-				if(forward)then
-					
-					moveTowardsBottom(self.sequence[self.state], self.targetObject, self.slope, self.xspeedsend, self.yspeedsend, alldt)
-					
-					if(fast)then
-					
-						if(collisionCheck2Points(self.sequence[self.state].x, self.sequence[self.state].y, 50, self.targetObject.x + self.targetObject.width/2, self.targetObject.y + self.targetObject.height, 2))then
-				
-							self.state = self.state + 1
-							self.resetslope = true
-							
-						end
-	
 					else
-						
-						if(collisionCheck2Points(self.sequence[self.state].x, self.sequence[self.state].y, 10, self.targetObject.x + self.targetObject.width/2, self.targetObject.y + self.targetObject.height, 2))then
-				
-							self.state = self.state + 1
-							self.resetslope = true
-							
-						end
-					
+		
+						self.resetslope = false
+						deltax = (self.targetObject.x + (self.targetObject.width/2)) - self.sequence[self.state].x
+						deltay = (self.targetObject.y + self.targetObject.height) - self.sequence[self.state].y
+		
 					end
 		
-				elseif(backward and self.state > 1)then
-		
-					moveTowardsBottom(self.sequence[self.state -1], self.targetObject, self.slope, self.xspeedsend, self.yspeedsend, alldt)
+					self.slope = deltax/deltay
+
+					if(deltay == 0)then
 			
-					if(collisionCheck2Points(self.sequence[self.state - 1].x, self.sequence[self.state - 1].y, 10, self.targetObject.x + self.targetObject.width/2, self.targetObject.y + self.targetObject.height, 2))then
-						self.state = self.state - 1
+						self.slope = deltax/100
+			
+					end
+		
+					if(self.slope < 0)then
+		
+						self.slope = self.slope * - 1
+			
+					end	
+		
+					self.xspeedsend = self.sequence[self.state].speed/self.slope
+		
+					self.yspeedsend = self.xspeedsend
+			
+				end
+	
+				--weird editor behavior
+				if(editorMode or pause)then
+					if(forward)then
+					
+						moveTowardsBottom(self.sequence[self.state], self.targetObject, self.slope, self.xspeedsend, self.yspeedsend, alldt)
+					
+						if(fast)then
+					
+							if(collisionCheck2Points(self.sequence[self.state].x, self.sequence[self.state].y, 50, self.targetObject.x + self.targetObject.width/2, self.targetObject.y + self.targetObject.height, 2))then
+				
+								self.state = self.state + 1
+								self.resetslope = true
+							
+							end
+	
+						else
+						
+							if(collisionCheck2Points(self.sequence[self.state].x, self.sequence[self.state].y, 10, self.targetObject.x + self.targetObject.width/2, self.targetObject.y + self.targetObject.height, 2))then
+				
+								self.state = self.state + 1
+								self.resetslope = true
+							
+							end
+					
+						end
+		
+					elseif(backward and self.state > 1)then
+		
+						moveTowardsBottom(self.sequence[self.state -1], self.targetObject, self.slope, self.xspeedsend, self.yspeedsend, alldt)
+			
+						if(collisionCheck2Points(self.sequence[self.state - 1].x, self.sequence[self.state - 1].y, 10, self.targetObject.x + self.targetObject.width/2, self.targetObject.y + self.targetObject.height, 2))then
+							self.state = self.state - 1
+							self.resetslope = true
+						end
+
+					end	
+	
+				else
+	
+					--what should be happening
+	
+					moveTowardsBottom(self.sequence[self.state], self.targetObject, self.slope, self.xspeedsend, self.yspeedsend, alldt)
+
+					if(collisionCheck2Points(self.sequence[self.state].x, self.sequence[self.state].y, 2, self.targetObject.x + self.targetObject.width/2, self.targetObject.y + self.targetObject.height, 2))then
+						self.state = self.state + 1
 						self.resetslope = true
 					end
-
-				end	
 	
-			else
-	
-				--what should be happening
-	
-				moveTowardsBottom(self.sequence[self.state], self.targetObject, self.slope, self.xspeedsend, self.yspeedsend, alldt)
-
-				if(collisionCheck2Points(self.sequence[self.state].x, self.sequence[self.state].y, 2, self.targetObject.x + self.targetObject.width/2, self.targetObject.y + self.targetObject.height, 2))then
-					self.state = self.state + 1
-					self.resetslope = true
 				end
 	
 			end
-	
+			
 		end
-		
 
 	elseif(self.repeatdo)then
 	
@@ -174,10 +262,22 @@ function event:draw()
 
 		end
 		
-		love.graphics.setColor(0, 255, 0, 255)
-		love.graphics.setPointSize( 10 )
-		love.graphics.point(self.sequence[i].x, self.sequence[i].y)
-		love.graphics.setColor(255, 255, 255, 255)
+		
+		if(self.sequence[i].time > 0)then
+		
+			love.graphics.setColor(0, 100, 255, 255)
+			love.graphics.setPointSize( 10 )
+			love.graphics.point(self.sequence[i].x, self.sequence[i].y)
+			love.graphics.setColor(255, 255, 255, 255)
+		
+		else
+			
+			love.graphics.setColor(0, 255, 0, 255)
+			love.graphics.setPointSize( 10 )
+			love.graphics.point(self.sequence[i].x, self.sequence[i].y)
+			love.graphics.setColor(255, 255, 255, 255)
+			
+		end
 
 	end
 

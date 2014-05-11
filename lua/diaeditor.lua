@@ -7,6 +7,8 @@ diaeditor.rowlength = 65
 diaeditor.rows = 14
 diaeditor.modifier = 0
 diaeditor.backcount = 0
+diaeditor.leftcount = 0
+diaeditor.rightcount = 0
 
 function diaeditor:draw()
 
@@ -49,6 +51,14 @@ function diaeditor:checkKeys()
 	
 	if(love.keyboard.isDown('right'))then
 		
+		diaeditor.rightcount = diaeditor.rightcount + 1
+		
+		if(diaeditor.rightcount > 5)then
+			
+			rightpressable = true
+			
+		end
+		
 		if(rightpressable)then
 			rightpressable = false
 		
@@ -61,11 +71,20 @@ function diaeditor:checkKeys()
 		end
 		
 	else
+		diaeditor.rightcount = 0
 		
 		rightpressable = true
 		
 	end
 	if(love.keyboard.isDown('left'))then
+		
+		diaeditor.leftcount = diaeditor.leftcount + 1
+		
+		if(diaeditor.leftcount > 5)then
+			
+			leftpressable = true
+			
+		end
 		
 		if(leftpressable)then
 			leftpressable = false
@@ -80,6 +99,8 @@ function diaeditor:checkKeys()
 			
 
 	else
+		
+		diaeditor.leftcount = 0
 		
 		leftpressable = true
 		

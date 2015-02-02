@@ -449,6 +449,9 @@ function otherKeyChecks()
 	if(love.keyboard.isDown('w') == false)then
 		wpressable = true
 	end
+	if(love.keyboard.isDown('e') == false)then
+		epressable = true
+	end
 	if(love.keyboard.isDown('a') == false)then
 		apressable = true
 	end

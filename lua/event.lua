@@ -44,9 +44,9 @@ function event:new (secIn, endSecIn, sequenceIn, objectIn, repeatIn)
 end
 
 
-function event:addPoint(xIn, yIn, speedIn) 
+function event:addPoint(xIn, yIn, speedIn, timeIn) 
 
-	new = {x = xIn, y = yIn, speed = speedIn, door = false}
+	new = {x = xIn, y = yIn, speed = speedIn, door = false, time = timeIn}
 	table.insert(self.sequence, new)
 	
 end

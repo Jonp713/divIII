@@ -1,19 +1,24 @@
 tree = {
 
 	{
- 		startSec = 8,
+ 		number = 1,
+		startSec = 20,
 		endSec = 9999999,
 		isSecret = 0,
-		repeatdo = true,
+		hiddenx1 = 871.69319583638,
+		hiddenx2 = 1136.9436014609,
+		hiddeny1 = 871.69319583638,
+		hiddeny2 = 1136.9436014609,
+
+
+		secretSeq = {
+			{words = "", time = 3},
+		},
+		repeatdo = false,
 
 
 		sequence = {
-			{words = "REPENT! The end is near, the great bomb is upon us!!", time = 3},
-			{words = "If you accept the great cube as your savior then you will be saved!!", time = 3},
-			{words = "REPENT REPENT REPENT REPENT REPENT REPENT ", time = 3},
-			{words = "One day a man came up to me and asked 'Can you get the hell out of my house?'", time = 5},
-			{words = "I said to him 'This is the house of the great cube! It is yours if you accept him as the one and only shape'", time = 5},
-			{words = "And thus I saved his life. Do you not see the truth yet?'", time = 3},
+			{words = "words", time = 3},
 		}
 	},
  

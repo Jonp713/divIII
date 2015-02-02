@@ -570,6 +570,32 @@ function editor:checkKeys(dt)
 		
 		end	
 	end
+	
+	
+	--change graphic to 0
+	if(love.keyboard.isDown('e') and diaeditor.up == false)then
+				
+		if(epressable)then
+			wpressable = false
+
+			for i = 1, #sections do
+		
+				for j = 1, #self.chosen do
+
+					if ((sections[i].xBig == self.chosen[j].bigX) and (sections[i].yBig == self.chosen[j].bigY))then
+				
+						sections[i].grid[self.chosen[j].y][self.chosen[j].x] = 0
+				
+						self.Print = 'Graphic = 0'		  
+				
+					end
+			
+				end
+			end
+		
+		end
+		
+	end
 	--solid collision
 	if(love.keyboard.isDown('a') and diaeditor.up == false)then
 
@@ -909,7 +935,7 @@ function editor:checkKeys(dt)
 						
 						x,y = camera:getPos()
 						
-						chars[i].events[j]:addPoint(x,y, 50)
+						chars[i].events[j]:addPoint(x,y, 50, 0)
 					
 					end
 				
@@ -953,7 +979,7 @@ function editor:checkKeys(dt)
 				
 					sequence = {
 					
-						{x = xIn, y = yIn, speed = 50}
+						{x = xIn, y = yIn, speed = 50, time = 0}
 				
 					}
 

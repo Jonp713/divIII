@@ -1,76 +1,24 @@
 tree = {
 
 	{
- 		startSec = 244,
+ 		number = 1,
+		startSec = 20,
 		endSec = 9999999,
 		isSecret = 0,
-		repeatdo = false,
+		hiddenx1 = 871.69319583638,
+		hiddenx2 = 1136.9436014609,
+		hiddeny1 = 871.69319583638,
+		hiddeny2 = 1136.9436014609,
 
 
-		sequence = {
-			{words = "", time = 2},
-			{words = "Hi there.", time = 2},
-			{words = "", time = 4},
-			{words = "Oh yeah! yeah. . . Um", time = 3},
-			{words = "Do u have any money. I want some money", time = 4},
-			{words = "", time = 8},
-			{words = "Oh yeah sure we can talk about that.", time = 3},
-			{words = "", time = 25},
-			{words = "That went pretty well I guess", time = 5},
-		}
-	},
-	{
- 		startSec = 361,
-		endSec = 9999999,
-		isSecret = 0,
-		repeatdo = false,
-
-
-		sequence = {
-			{words = "Right on time.", time = 3},
-			{words = "So the bomb is located in the building at the top of this here grey block", time = 5},
-			{words = "In order to get there, I am going to have to do some magic. Normally you would have to climb that tree to the right", time = 5},
-			{words = "So. On the count of three I am going to cast a spell", time = 5},
-			{words = "1", time = 2},
-			{words = "2", time = 2},
-			{words = "3", time = 2},
-			{words = "HallagallaBaloooo", time = 2},
+		secretSeq = {
 			{words = "", time = 3},
-			{words = "Ah yes, upwards we go to the orange house", time = 8},
-		}
-	},
-	{
- 		startSec = 420,
-		endSec = 9999999,
-		isSecret = 0,
+		},
 		repeatdo = false,
 
 
 		sequence = {
-			{words = "So this is the house, Now that we are here I am not sure why I brought you here", time = 5},
-			{words = "I mean, you planted the bomb with me so you already knew where this was", time = 5},
-			{words = "", time = 4},
-			{words = "Yes well it is almost time for our next meeting", time = 5},
-			{words = "Shall we go?", time = 3},
-		}
-	},
-	{
- 		startSec = 476,
-		endSec = 9999999,
-		isSecret = 1,
-		repeatdo = false,
-
-
-		sequence = {
-			{words = "Okay we are here and alone and no one is listening", time = 5},
-			{words = "", time = 5},
-			{words = "You know, I am not sure. But now that we are here, we may as well discuss it.", time = 5},
-			{words = "", time = 5},
-			{words = "Mmmm Yes. It would be terrible if they heard that all you have to do is stand on top of the bomb and press B in order to diffuse it", time = 8},
-			{words = "", time = 1},
-			{words = "So I guess maybe it is safer that we don't discuss it", time = 5},
-			{words = "", time = 2},
-			{words = "Me too", time = 5},
+			{words = "words", time = 3},
 		}
 	},
  

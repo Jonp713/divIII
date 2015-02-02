@@ -2,7 +2,7 @@ function love.load(args)
 
 	--to prevent repeated key presses
 	zpressable, qpressable, wpressable, apressabe, spressable, dpressable, ppressable, opressable = true
-	mpressable, npressable, bpressable, fpressable, gpressable, xpressable, cpressable, vpressable = true
+	mpressable, npressable, bpressable, fpressable, gpressable, xpressable, cpressable, vpressable, epressable = true
 	
 	equalpressable, commapressable, colonpressable, periodpressable, enterpressable, backspacepressable, leftpressable, rightpressable, uppressable, downpressable, dashpressable = true
 	

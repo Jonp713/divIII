@@ -29,6 +29,7 @@ right click - select object
 
 q - go up one blockgraphic lshift(+5)
 w - go down one blockgraphic lshift(-5)
+e - set graphics to 0
 
 a - solid 
 s - standable + others including slope
@@ -100,16 +101,19 @@ function editorDebug()
 	--love.graphics.print(toprint7, 600, 94)
 	
 	
-	if(chars[1].events[1].sequence[2].door)then
+	--love.graphics.print(chars[1].events[1].sequence[1].x, 600, 90)
+	
+	
+	--if(chars[1].events[1].sequence[2].door)then
 		
 		--love.graphics.print("this is true", 600, 90)
 
 	
-	else
+		--else
 	
 		--love.graphics.print("this is not true", 600, 90)
 	
-	end
+		--end
 	
 	love.graphics.setFont(thinfont)
 	

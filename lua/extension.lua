@@ -64,9 +64,14 @@ function extension:displayGrid ()
 
     for y=1, #self.grid do
         for x= 1, #self.grid[y] do
+			
+            love.graphics.setColor(255, 255, 255)
+            love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
+            love.graphics.setColor(255, 255, 255)
             if self.grid[y][x] == -1 then
             
             	love.graphics.setColor(0, 0, 0, 255)
+				love.graphics.setNewFont(8)
 
                 love.graphics.rectangle("line", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
                 
@@ -74,81 +79,41 @@ function extension:displayGrid ()
             	love.graphics.print(", " .. x, ((x -1) * self.blockwidth) + self.x + 20, ((y - 1) * self.blockheight) + self.y + 10)
             	love.graphics.print(self.xBig .. ', '..self.yBig, ((x -1) * self.blockwidth) + self.x + 5, ((y - 1) * self.blockheight) + self.y + 25)
 				love.graphics.setColor(255,255,255,255)
+				love.graphics.setNewFont(12)
 
+            end
+			
+			if(blocks[self.grid[y][x]] ~= nil)then
 
-            end
-            if self.grid[y][x] == 1 then
-                
-                love.graphics.setColor(0, 0, 0)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-
-            end   
-        	if self.grid[y][x] == 2 then
-            
-               love.graphics.setColor(0, 140, 20)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end
-            if self.grid[y][x] == 3 then
-            
-                love.graphics.setColor(20, 20, 180)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end
-            if self.grid[y][x] == 4 then
-            
-                love.graphics.setColor(180, 20, 20)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end
-            if self.grid[y][x] == 5 then
-            
-                love.graphics.setColor(70, 40, 40)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end
-            if self.grid[y][x] == 6 then
-            
-                love.graphics.setColor(225, 140, 0)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end
-            if self.grid[y][x] == 7 then
-            
-                love.graphics.setColor(245, 205, 0)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end
-            if self.grid[y][x] == 8 then
-            
-                love.graphics.setColor(148, 0, 211)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end 
-            if self.grid[y][x] == 9 then
-                love.graphics.setColor(32, 178, 170)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end 
-            if self.grid[y][x] == 10 then
-                love.graphics.setColor(180, 180, 180)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end 
-            if self.grid[y][x] == 11 then
-                love.graphics.setColor(50, 50, 50)
-                love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
-                love.graphics.setColor(255, 255, 255)
-            end 
-            if self.grid[y][x] == 12 then
-    			love.graphics.draw( noteblock, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-            end 
-            if self.grid[y][x] == 13 then
-    			love.graphics.draw( noteblock2, ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
-            end 
-        end
+			
+           	 	   love.graphics.draw(blocks[self.grid[y][x]], ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
+			
+			else
+				
+			
+			
+			
+       	 	end
+		end
     end
+    
+    
+    if(editorMode)then
+    
+    	for i = 1, #editor.chosen do
+    
+			if ((self.xBig == editor.chosen[i].bigX) and (self.yBig == editor.chosen[i].bigY)) and (editorMode)then
+		
+				love.graphics.setColor(122, 122, 122, 75)
+				love.graphics.rectangle("fill", ((editor.chosen[i].x -1) * self.blockwidth) + self.x, ((editor.chosen[i].y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
+				love.graphics.setColor(255,255,255,255)
+				
+			end
+		
+		end
+	
+	end
+
     
     
     if(editorMode)then

@@ -74,8 +74,8 @@ function section:displayGrid ()
     for y=1, #self.grid do
         for x= 1, #self.grid[y] do
 			
-            love.graphics.setColor(0, 0, 0)
-            love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
+            love.graphics.setColor(255, 255, 255)
+            --love.graphics.rectangle("fill", ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y, self.blockwidth, self.blockheight)
             love.graphics.setColor(255, 255, 255)
             if self.grid[y][x] == -1 then
             
@@ -91,8 +91,6 @@ function section:displayGrid ()
 				love.graphics.setNewFont(12)
 
             end
-	
-  
 			
 			if(blocks[self.grid[y][x]] ~= nil)then
 
@@ -100,6 +98,7 @@ function section:displayGrid ()
            	 	   love.graphics.draw(blocks[self.grid[y][x]], ((x -1) * self.blockwidth) + self.x, ((y - 1) * self.blockheight) + self.y)
 			
 			else
+				
 			
 			
 			

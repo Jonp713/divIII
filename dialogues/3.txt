@@ -1,114 +1,24 @@
 tree = {
 
 	{
- 		startSec = 1,
+ 		number = 1,
+		startSec = 20,
 		endSec = 9999999,
 		isSecret = 0,
+		hiddenx1 = 871.69319583638,
+		hiddenx2 = 1136.9436014609,
+		hiddeny1 = 871.69319583638,
+		hiddeny2 = 1136.9436014609,
+
+
+		secretSeq = {
+			{words = "", time = 3},
+		},
 		repeatdo = false,
 
 
 		sequence = {
-			{words = "I am sooo borrredd", time = 8},
-			{words = "What is there to do today??", time = 7},
-		}
-	},
-	{
- 		startSec = 33,
-		endSec = 9999999,
-		isSecret = 0,
-		repeatdo = false,
-
-
-		sequence = {
-			{words = "Oh my goodness, what is this beauty that enters my ears?", time = 8},
-			{words = "Such a melody from such a grand rectangular voice, it is a miracle", time = 7},
-		}
-	},
-	{
- 		startSec = 48,
-		endSec = 299,
-		isSecret = 0,
-		repeatdo = true,
-
-
-		sequence = {
-			{words = "Sing this beautiful melody you great creature!!!", time = 5},
-			{words = "I have never heard such beautiful music, I am ready to die", time = 4},
-			{words = "llala doop doop yeah just like that", time = 3},
-		}
-	},
-	{
- 		startSec = 350,
-		endSec = 9999999,
-		isSecret = 0,
-		repeatdo = false,
-
-
-		sequence = {
-			{words = "Oh! look at the time, I best be going now", time = 3},
-		}
-	},
-	{
- 		startSec = 361,
-		endSec = 9999999,
-		isSecret = 0,
-		repeatdo = false,
-
-
-		sequence = {
-			{words = "Hello there.", time = 3},
-			{words = "", time = 7},
-			{words = "Oh wow magic, I love magic", time = 5},
-			{words = "", time = 11},
-		}
-	},
-	{
- 		startSec = 385,
-		endSec = 9999999,
-		isSecret = 0,
-		repeatdo = false,
-
-
-		sequence = {
-			{words = "Oh my this is amazing. I didn't know magic felt this good", time = 3},
-			{words = "", time = 10},
-			{words = "We should meet up and do this again sometime", time = 3},
-			{words = "Weeeeeeeeee", time = 5},
-		}
-	},
-	{
- 		startSec = 420,
-		endSec = 9999999,
-		isSecret = 0,
-		repeatdo = false,
-
-
-		sequence = {
-			{words = "", time = 7},
-			{words = "That is correct, I did know exactly where this was", time = 4},
-			{words = "But it was really fun to fly up here!!", time = 3},
-			{words = "", time = 7},
-			{words = "Yes, lets go", time = 3},
-		}
-	},
-	{
- 		startSec = 476,
-		endSec = 9999999,
-		isSecret = 1,
-		repeatdo = false,
-
-
-		sequence = {
-			{words = "", time = 5},
-			{words = "yes so we are discussing how the bomb is diffused. Why are we doing that again?", time = 5},
-			{words = "", time = 5},
-			{words = "Yes, I agree. But what if somehow someone hears us and manages to diffuse the bomb? ", time = 5},
-			{words = "", time = 5},
-			{words = "Yes I agree", time = 4},
-			{words = "", time = 5},
-			{words = "I think you are right. I kind of want to go swimming though", time = 5},
-			{words = "", time = 2},
-			{words = "Lets go!", time = 2},
+			{words = "words", time = 3},
 		}
 	},
  

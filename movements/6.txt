@@ -1,14 +1,15 @@
 tree = {
 
 	{
- 		startSec = 1,
+ 		number = 1,
+		startSec = 50,
 		endSec = 9999999,
-		repeatdo = true,
+		repeatdo = false,
 
 
 		sequence = {
-			{x = 2068.8411151518, y = 1363.0277961158, speed = 50},
-			{x = 1967.7220832511, y = 1363.0277961158, speed = 50},
+			{x = 869.05471285853, y = 1524.7116773314, speed = 50, door = false, time = 0},
+			{x = 512.61876143169, y = 1522.7247829072, speed = 50, door = false, time = 0},
 		}
 	},
  
